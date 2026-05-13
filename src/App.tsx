@@ -1,8 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Stage from './layout/Stage';
-import ChapterNav, { CHAPTERS } from './layout/ChapterNav';
-import GlobalTopBar from './layout/GlobalTopBar';
+import { CHAPTERS } from './layout/chapters';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Page01_Hero        = lazy(() => import('./pages/Page01_Hero'));
@@ -17,6 +16,10 @@ const Page09_Sound       = lazy(() => import('./pages/Page09_Sound'));
 const Page10_Ending      = lazy(() => import('./pages/Page10_Ending'));
 const NotFound           = lazy(() => import('./pages/NotFound'));
 
+/**
+ * 键盘翻章：← / → / PageUp / PageDown 在 CHAPTERS 中前后跳转。
+ * 输入元素聚焦时不劫持。无可见 UI，仅作为辅助快捷键。
+ */
 function KeyboardNav() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -56,7 +59,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <KeyboardNav />
-      <GlobalTopBar />
       <Stage>
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>
@@ -76,7 +78,6 @@ export default function App() {
           </Suspense>
         </ErrorBoundary>
       </Stage>
-      <ChapterNav />
     </BrowserRouter>
   );
 }

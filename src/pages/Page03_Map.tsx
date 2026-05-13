@@ -1,4 +1,4 @@
-import { DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
 
 export default function Page03_Map() {
   const nodes = [
@@ -13,6 +13,7 @@ export default function Page03_Map() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="历史背景" page="03" />
         <DhMist />
         <DhParticles count={60} seed={11} opacityRange={[.2, .55]} />
 

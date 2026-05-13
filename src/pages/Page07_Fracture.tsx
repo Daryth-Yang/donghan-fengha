@@ -1,11 +1,12 @@
 import { Fragment } from 'react';
-import { DhMist, DhParticles, DhCorners, DhSection } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhCorners, DhSection } from '../components/atmosphere';
 
 export default function Page07_Fracture() {
   const flow = ["完整陶俑", "手势扰动", "陶片破碎", "粒子游离", "重新聚合", "文物再生"];
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="互动体验" page="07" />
         <DhMist />
         <DhParticles count={70} seed={37} opacityRange={[.2, .7]} />
 

@@ -1,9 +1,10 @@
-import { DhMist, DhMountains, DhParticles, DhFigurine, DhRipples, DhMeander, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhMountains, DhParticles, DhFigurine, DhRipples, DhMeander, DhCorners } from '../components/atmosphere';
 
 export default function Page10_Ending() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="首页" page="10" />
         <DhMist />
         <DhMountains />
         <DhParticles count={90} seed={53} opacityRange={[.15, .7]} />

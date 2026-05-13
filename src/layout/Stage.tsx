@@ -1,8 +1,8 @@
 /* ===========================================================
    Stage.tsx — 1440×900 画板的视口适配容器
-   策略：cover 模式（max scale）—— 画板铺满整个浏览器窗口
-   - 必要时裁剪掉极少量边缘装饰（DhCorners / 侧边竖排标）
-   - 顶部 64px 的内部导航留空，由视口级 GlobalTopBar 覆盖
+   策略：fit 模式（min scale）—— 保持设计完整性，不裁切不变形
+   - 视口比 16:10 越接近，外缘留白越少
+   - 配合纯深色背景与画板内自带的水墨气氛，留白区域不形成 框
    =========================================================== */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -20,8 +20,7 @@ export default function Stage({ children }: { children: ReactNode }) {
     if (!el) return;
     const compute = () => {
       const { clientWidth: w, clientHeight: h } = el;
-      // cover：取较大者，让设计铺满整个视口
-      const s = Math.max(w / DESIGN_W, h / DESIGN_H);
+      const s = Math.min(w / DESIGN_W, h / DESIGN_H);
       setScale(s > 0 ? s : 1);
     };
     compute();
@@ -38,7 +37,7 @@ export default function Stage({ children }: { children: ReactNode }) {
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `translate(-50%, -50%) scale(${scale})`,
+          transform: `scale(${scale})`,
           ['--dh-scale' as string]: scale,
         } as CSSProperties}
       >

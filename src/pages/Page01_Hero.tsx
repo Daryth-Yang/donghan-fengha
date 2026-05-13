@@ -1,9 +1,11 @@
-import { DhMist, DhMountains, DhParticles, DhFigurine, DhMeander, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhMountains, DhParticles, DhFigurine, DhMeander, DhCorners } from '../components/atmosphere';
 
 export default function Page01_Hero() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="首页" page="01" />
+
         {/* 背景层 */}
         <DhMist />
         <DhMountains />

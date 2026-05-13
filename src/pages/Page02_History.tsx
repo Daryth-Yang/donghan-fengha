@@ -1,4 +1,4 @@
-import { DhMist, DhParticles, DhSection, DhMeander, DhSeal, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhSection, DhMeander, DhSeal, DhCorners } from '../components/atmosphere';
 
 export default function Page02_History() {
   const nodes = [
@@ -12,6 +12,7 @@ export default function Page02_History() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="历史背景" page="02" />
         <DhMist />
         <DhParticles count={50} seed={7} sizeRange={[1, 2]} opacityRange={[.15, .55]} />
 

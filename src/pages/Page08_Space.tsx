@@ -1,4 +1,4 @@
-import { DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
 
 export default function Page08_Space() {
   const flow = [
@@ -11,6 +11,7 @@ export default function Page08_Space() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
+        <DhTopBar active="展陈方案" page="08" />
         <DhMist />
         <DhParticles count={40} seed={43} opacityRange={[.15, .5]} />
 

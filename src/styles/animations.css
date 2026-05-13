@@ -220,15 +220,6 @@
   box-shadow: 0 0 40px rgba(201,169,97,.35), inset 0 -50px 80px rgba(201,169,97,.18);
 }
 
-/* ----- ChapterNav 章节小章 · 键盘可见焦点 ----- */
-.dh-nav-chip:focus-visible,
-.dh-nav-btn:focus-visible {
-  outline: 1px solid var(--gold-4);
-  outline-offset: 2px;
-  box-shadow: 0 0 12px rgba(230,200,132,.55);
-}
-.dh-nav-chip:hover { color: var(--gold-4); border-color: var(--gold-3); }
-
 /* ----- 减弱动效 偏好 ----- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition-duration: .001s !important; }

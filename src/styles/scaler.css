@@ -1,24 +1,24 @@
 /* ==========================================================
-   scaler.css —— 1440×900 画板的视口适配 (cover 模式)
+   scaler.css —— 1440×900 画板的视口适配 (fit 模式)
+   背景纯深色，画板自带气氛，外缘留白不再装饰，避免出现 框 感
    ========================================================== */
 
 .dh-scaler {
   position: fixed;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  background: #050407;
+  background: #07060a;
 }
 
 .dh-scaler__inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
   transform-origin: center center;
-  /* width / height / transform 由 Stage.tsx 通过 inline style 控制 */
   flex-shrink: 0;
 }
 
-/* 路由切换淡入：让位给内部 dhStageIn，外层做最轻 opacity */
+/* 路由切换淡入：只做轻量 opacity，画板内 dhStageIn 负责精细动画 */
 @keyframes dhRouteIn {
   0%   { opacity: 0; }
   100% { opacity: 1; }
