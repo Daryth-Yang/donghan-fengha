@@ -5,6 +5,7 @@ import './styles/stage.css';
 import './styles/animations.css';
 import './styles/scaler.css';
 import './styles/pages.css';
+import './styles/minimal.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(

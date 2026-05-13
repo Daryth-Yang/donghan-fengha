@@ -137,6 +137,7 @@ html, body, #root {
   border: 1px solid var(--gold-2);
   position: relative;
   cursor: pointer;
+  text-decoration: none;
   transition: all .3s ease;
 }
 .dh-btn:hover { color: var(--gold-5); border-color: var(--gold-3); background: linear-gradient(180deg, rgba(201,169,97,.16), rgba(107,80,40,.35)); }
@@ -155,6 +156,7 @@ html, body, #root {
   background: transparent;
   border: 1px solid rgba(154,122,62,.5);
   cursor: pointer;
+  text-decoration: none;
   transition: all .25s ease;
 }
 .dh-btn-ghost:hover { color: var(--gold-5); border-color: var(--gold-3); }
@@ -196,6 +198,7 @@ html, body, #root {
 /* 卷轴侧边的竖排小标题 */
 .dh-side-vert {
   position: absolute;
+  writing-mode: vertical-rl;
   font-family: var(--sf-serif);
   letter-spacing: .55em;
   color: var(--gold-2);
@@ -239,6 +242,26 @@ html, body, #root {
   font-size: 14px;
   position: absolute;
   top: 14px; right: 10px;
+}
+
+/* 文物照片（基础版，作用于所有 dh-stage） */
+.dh-figurine-img {
+  display: block;
+  position: relative;
+  filter: drop-shadow(0 16px 24px rgba(0,0,0,.6))
+          drop-shadow(0 0 22px rgba(201,169,97,.22));
+  transition: transform .6s cubic-bezier(.2,.7,.2,1),
+              filter .4s ease;
+  z-index: 1;
+}
+.dh-figurine-img.--featured {
+  filter: drop-shadow(0 22px 36px rgba(0,0,0,.75))
+          drop-shadow(0 0 52px rgba(230,200,132,.45));
+}
+.dh-figurine-wrap:hover .dh-figurine-img {
+  transform: translateY(-4px);
+  filter: drop-shadow(0 26px 32px rgba(0,0,0,.65))
+          drop-shadow(0 0 48px rgba(230,200,132,.5));
 }
 
 /* 粒子光环 */

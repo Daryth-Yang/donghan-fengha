@@ -180,7 +180,9 @@ export function DhSection({
   );
 }
 
-/* —— 陶俑剪影占位 —— */
+/* —— 陶俑视觉：优先用真照片，缺图时回退到 CSS 占位 ——
+   照片放在 public/figurines/{code-lowercase}.png（如 fig-01.png）
+   组件会自动把 code 转成文件名；onError 时回退到旧的剪影占位。 */
 export function DhFigurine({
   width = 100,
   height = 200,
@@ -188,6 +190,7 @@ export function DhFigurine({
   code = 'FIG-01',
   featured = false,
   showHalo = false,
+  src,
 }: {
   width?: number;
   height?: number;
@@ -195,17 +198,43 @@ export function DhFigurine({
   code?: string;
   featured?: boolean;
   showHalo?: boolean;
+  src?: string;
 }) {
+  const imgSrc = src ?? `/figurines/${code.toLowerCase()}.png`;
   return (
-    <div style={{ position: 'relative', width, height }}>
+    <div className="dh-figurine-wrap" style={{ position: 'relative', width, height }}>
       {showHalo && <div className="dh-halo" style={{ inset: -30 }} aria-hidden="true" />}
+
+      {/* 真照片层 —— 居中、保持比例、去背景。加载失败时被 ::before 占位接管 */}
+      <img
+        src={imgSrc}
+        alt={`${label} · ${code}`}
+        className={`dh-figurine-img ${featured ? '--featured' : ''}`}
+        loading="lazy"
+        onError={(e) => {
+          // 图片不存在时：隐藏 img、显示同级 fallback
+          const el = e.currentTarget;
+          el.style.display = 'none';
+          const fb = el.nextElementSibling as HTMLElement | null;
+          if (fb) fb.style.display = 'flex';
+        }}
+        style={{
+          width,
+          height,
+          objectFit: 'contain',
+          objectPosition: 'center bottom',
+        }}
+      />
+
+      {/* Fallback：原 CSS 占位（默认隐藏，img 加载失败时显示） */}
       <div
         className="dh-figurine"
         role="img"
         aria-label={`${label} · ${code}`}
         style={{
-          width,
-          height,
+          display: 'none',
+          position: 'absolute', inset: 0,
+          width, height,
           boxShadow: featured
             ? '0 0 40px rgba(201,169,97,.25), inset 0 -40px 60px rgba(201,169,97,.12)'
             : 'inset 0 -30px 50px rgba(201,169,97,.06)',

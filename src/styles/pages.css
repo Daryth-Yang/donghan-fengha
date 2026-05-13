@@ -71,13 +71,6 @@
 /* ===========================================================
    章 01 · 启动页 Hero
    =========================================================== */
-.dh-p01__sidemark {
-  position: absolute;
-  right: clamp(16px, 2vw, 32px);
-  top: clamp(88px, 13vh, 160px);
-  writing-mode: vertical-rl;
-}
-
 .dh-p01__bg-figurine {
   position: absolute;
   left: 50%;
@@ -109,6 +102,75 @@
   margin-top: clamp(20px, 3vh, 56px);
 }
 
+/* ——— 模块入口（首页 → 历史背景 / 文物群像 / 互动体验 / 展陈方案） ——— */
+.dh-p01__entries {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 18px);
+  margin-top: clamp(20px, 3vh, 56px);
+  width: min(720px, 90vw);
+}
+.dh-p01__entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: clamp(12px, 1.6vh, 18px) clamp(8px, 1vw, 16px);
+  color: var(--gold-3);
+  background: linear-gradient(180deg, rgba(154,122,62,.06), rgba(58,44,20,.18));
+  border: 1px solid rgba(154,122,62,.45);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .25s ease, border-color .25s ease, background .25s ease, transform .25s ease;
+}
+.dh-p01__entry::before,
+.dh-p01__entry::after {
+  content: "";
+  position: absolute;
+  width: 7px; height: 7px;
+  border: 1px solid var(--gold-2);
+  opacity: .7;
+  transition: all .3s ease;
+}
+.dh-p01__entry::before { top: -3px; left: -3px;     border-right: none; border-bottom: none; }
+.dh-p01__entry::after  { bottom: -3px; right: -3px; border-left: none;  border-top: none; }
+.dh-p01__entry:hover {
+  color: var(--gold-5);
+  border-color: var(--gold-3);
+  background: linear-gradient(180deg, rgba(201,169,97,.14), rgba(107,80,40,.30));
+  transform: translateY(-1px);
+}
+.dh-p01__entry:hover::before,
+.dh-p01__entry:hover::after {
+  border-color: var(--gold-5);
+  opacity: 1;
+}
+.dh-p01__entry-num {
+  font-family: var(--sf-sans);
+  font-size: 11px;
+  letter-spacing: .24em;
+  color: var(--gold-2);
+  opacity: .8;
+}
+.dh-p01__entry-cn {
+  font-family: var(--sf-serif);
+  font-size: clamp(14px, 1.05vw, 17px);
+  letter-spacing: .28em;
+}
+.dh-p01__entry-en {
+  font-family: var(--sf-sans);
+  font-size: 10px;
+  letter-spacing: .42em;
+  color: var(--gold-2);
+  opacity: .65;
+}
+
+@media (max-width: 720px) {
+  .dh-p01__entries { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .dh-p01__scale {
   position: absolute;
   bottom: clamp(18px, 2.6vh, 36px);
@@ -123,6 +185,90 @@
 .dh-p01__ticks {
   display: flex;
   gap: 6px;
+}
+
+/* ——— 章 01 / 02 · 章节头条（与 04/06/08 同模板） ——— */
+.dh-p01__header,
+.dh-p02__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+  z-index: 4;
+}
+
+/* —— 章 01 · 配角列阵：4 个支持俳优排在底部，hover 唤醒 —— */
+.dh-p01__cast {
+  position: absolute;
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(78px, 10vh, 130px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(10px, 1.4vh, 18px);
+  z-index: 2;
+  pointer-events: none; /* 让背景粒子穿透；item 自己再恢复 */
+}
+.dh-p01__cast-eyebrow {
+  position: relative;
+  padding: 0 18px;
+  pointer-events: auto;
+}
+/* 标签左右各画一段细金线，让眉条像横幅 */
+.dh-p01__cast-eyebrow::before,
+.dh-p01__cast-eyebrow::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: clamp(40px, 6vw, 90px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(154, 122, 62, .35), transparent);
+}
+.dh-p01__cast-eyebrow::before { right: 100%; }
+.dh-p01__cast-eyebrow::after  { left: 100%; }
+
+.dh-p01__cast-row {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: clamp(28px, 4.5vw, 78px);
+  pointer-events: auto;
+}
+.dh-p01__cast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  opacity: .38;
+  transition: opacity .35s ease, transform .35s cubic-bezier(.2, .7, .2, 1);
+}
+.dh-p01__cast-item:hover {
+  opacity: .96;
+  transform: translateY(-4px);
+}
+.dh-p01__cast-num {
+  letter-spacing: .28em;
+  color: var(--paper-4);
+  transition: color .25s ease;
+}
+.dh-p01__cast-item:hover .dh-p01__cast-num {
+  color: var(--gold-3);
+}
+/* 配角图自带光环更弱（默认 drop-shadow 已加在 .dh-figurine-img；这里压一档）
+   特异性提到 .dh-stage 一级，以盖过 .dh-stage--minimal 的默认 figurine-img 滤镜 */
+.dh-stage .dh-p01__cast-item .dh-figurine-img {
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .45));
+}
+.dh-stage .dh-p01__cast-item:hover .dh-figurine-img {
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .55))
+          drop-shadow(0 0 18px rgba(201, 169, 97, .28));
 }
 
 /* ===========================================================
@@ -163,7 +309,10 @@
 
 /* ===========================================================
    章 02 · 历史背景 · 王朝将倾
+   立论 + 横向时间长卷 + 视角图例 + 下一章 CTA
    =========================================================== */
+
+/* —— 背景层 —— */
 .dh-p02__bg-glow {
   position: absolute;
   inset: 64px 0 0 0;
@@ -172,7 +321,6 @@
     radial-gradient(900px 320px at 18% 28%, rgba(154,122,62,.10), transparent 70%);
   pointer-events: none;
 }
-/* 远山贴视口底部当大地，不再悬浮在中段与时间轴交叉 */
 .dh-p02__mountain-back {
   top: auto !important;
   bottom: clamp(40px, 8vh, 110px) !important;
@@ -186,129 +334,248 @@
   opacity: .32 !important;
 }
 
+/* —— 主区：自上而下三段 —— */
 .dh-p02__body {
   position: absolute;
-  top: clamp(140px, 22vh, 220px);
-  /* 给底部山色区域留出空间，避免时间轴撞上远山 */
-  bottom: clamp(140px, 18vh, 220px);
+  top: clamp(150px, 21vh, 220px);
   left: clamp(28px, 4vw, 72px);
   right: clamp(28px, 4vw, 72px);
-  display: grid;
-  grid-template-columns: minmax(220px, 26vw) 1fr;
-  gap: clamp(32px, 5vw, 88px);
-  overflow: hidden;
-}
-
-.dh-p02__timeline {
-  position: relative;
-  padding-left: 18px;
-  overflow-y: auto;
-  min-height: 0;
+  bottom: clamp(110px, 13vh, 170px);
   display: flex;
   flex-direction: column;
-  /* 节点纵向均匀分布，吃掉父级高度 */
-  justify-content: space-between;
-  gap: clamp(16px, 2.4vh, 36px);
+  gap: clamp(24px, 3.6vh, 56px);
+  z-index: 2;
 }
-.dh-p02__timeline-rule {
-  position: absolute;
-  left: 6px;
-  top: 4px;
-  bottom: 4px;
+
+/* ——— ① 立论 ——— */
+.dh-p02__statement {
+  max-width: min(820px, 78vw);
 }
-.dh-p02__timeline-cap {
-  margin-bottom: 0;
-  flex: 0 0 auto;
+.dh-p02__statement-title {
+  margin: 0;
 }
-.dh-p02__node {
-  position: relative;
-  margin-bottom: 0;
-  flex: 0 0 auto;
-  padding: clamp(6px, 1vh, 10px) clamp(8px, .8vw, 12px) clamp(6px, 1vh, 10px) 8px;
-  margin-left: -8px;
-  border-left: 1px solid transparent;
-  border-radius: 0 2px 2px 0;
-  cursor: pointer;
-  transition: background .3s ease, border-color .3s ease, transform .3s ease;
-}
-.dh-p02__node:hover {
-  background: linear-gradient(90deg, rgba(201,169,97,.10), transparent 70%);
-  border-left-color: var(--gold-3);
-  transform: translateX(2px);
-}
-.dh-p02__node:hover .dh-p02__node-dot {
-  background: var(--gold-4) !important;
-  box-shadow: 0 0 14px rgba(230,200,132,.7) !important;
-}
-.dh-p02__node:hover .dh-p02__node-year {
-  color: var(--gold-5);
-}
-.dh-p02__node-dot {
-  position: absolute;
-  left: -18px;
-  top: 6px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  border: 1px solid var(--gold-3);
-}
-.dh-p02__node-year {
-  margin-bottom: 4px;
-}
-.dh-p02__node-topic {
-  margin-bottom: 6px;
-  color: var(--gold-2);
-}
-.dh-p02__node-desc {
-  line-height: 1.85;
+.dh-p02__statement-sub {
+  margin: clamp(14px, 1.8vh, 24px) 0 0;
+  max-width: 56ch;
   color: var(--paper-3);
 }
 
-.dh-p02__narrative {
+/* ——— ② 横向时间长卷 ——— */
+.dh-p02__timeline {
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
+  gap: clamp(8px, 1vh, 14px);
 }
-.dh-p02__narr-cap {
-  margin-bottom: clamp(10px, 1.6vh, 22px);
+.dh-p02__timeline-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
 }
-.dh-p02__narr-title {
-  margin: 0 0 clamp(18px, 2.8vh, 36px);
+.dh-p02__timeline-eyebrow {
+  color: var(--gold-2);
+  letter-spacing: .42em;
 }
-.dh-p02__narr-body {
-  margin-top: clamp(18px, 3vh, 36px);
-  max-width: min(640px, 60vw);
+.dh-p02__timeline-hint {
+  color: var(--paper-4);
 }
-/* 强调卡 + 标签条向下推到底部，让正文区自然铺满列高 */
-.dh-p02__emphasis {
-  margin-top: auto;
-  padding: clamp(20px, 2.6vh, 34px) clamp(22px, 2.8vw, 38px);
-  max-width: min(680px, 64vw);
+
+.dh-p02__timeline-track {
   position: relative;
+  padding: 28px clamp(8px, 1.5vw, 24px) 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(8px, 1.5vw, 24px);
 }
-.dh-p02__emphasis-seal {
+.dh-p02__timeline-rule {
   position: absolute;
-  left: clamp(14px, 1.4vw, 22px);
-  top: clamp(14px, 1.6vh, 22px);
+  left: clamp(8px, 1.5vw, 24px);
+  right: clamp(8px, 1.5vw, 24px);
+  top: 32px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(201,169,97,.55) 6%,
+    rgba(201,169,97,.55) 94%,
+    transparent
+  );
 }
-.dh-p02__emphasis-inner {
-  padding-left: clamp(64px, 6vw, 96px);
+
+.dh-p02__tnode {
+  position: relative;
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, .9vh, 12px);
+  padding: 0 4px;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+  transition: opacity .3s ease;
 }
-.dh-p02__emphasis-cap {
-  margin-bottom: 10px;
+.dh-p02__tnode-dot {
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ink-2);
+  border: 1px solid var(--gold-3);
+  box-shadow: 0 0 6px rgba(201,169,97,.25);
+  transition: background .25s, box-shadow .25s, transform .25s;
 }
-.dh-p02__chips {
+.dh-p02__tnode-year {
+  font-family: var(--sf-serif);
+  font-size: clamp(15px, calc(.45vw + .45vh), 19px);
+  letter-spacing: .2em;
+  color: var(--gold-3);
+  transition: color .25s ease;
+}
+.dh-p02__tnode-topic {
+  font-family: var(--sf-sans);
+  font-size: clamp(11px, calc(.32vw + .32vh), 13px);
+  letter-spacing: .14em;
+  color: var(--paper-3);
+}
+.dh-p02__tnode:hover .dh-p02__tnode-dot,
+.dh-p02__tnode:focus-visible .dh-p02__tnode-dot,
+.dh-p02__tnode.--focused .dh-p02__tnode-dot {
+  background: var(--gold-4);
+  transform: scale(1.5);
+  box-shadow: 0 0 16px rgba(230,200,132,.65);
+}
+.dh-p02__tnode:hover .dh-p02__tnode-year,
+.dh-p02__tnode.--focused .dh-p02__tnode-year {
+  color: var(--gold-5);
+}
+
+/* Lens 高亮：body 上挂 --lens-X，匹配节点保留 / 其余降透明度 */
+.dh-p02__body[class*="--lens-"] .dh-p02__tnode {
+  opacity: .28;
+}
+.dh-p02__body.--lens-folk     .dh-p02__tnode[data-tags~="folk"],
+.dh-p02__body.--lens-non-hero .dh-p02__tnode[data-tags~="non-hero"],
+.dh-p02__body.--lens-body     .dh-p02__tnode[data-tags~="body"] {
+  opacity: 1;
+}
+.dh-p02__body.--lens-folk     .dh-p02__tnode[data-tags~="folk"]     .dh-p02__tnode-dot,
+.dh-p02__body.--lens-non-hero .dh-p02__tnode[data-tags~="non-hero"] .dh-p02__tnode-dot,
+.dh-p02__body.--lens-body     .dh-p02__tnode[data-tags~="body"]     .dh-p02__tnode-dot {
+  background: var(--gold-4);
+  box-shadow: 0 0 14px rgba(230,200,132,.55);
+}
+
+/* 焦点信息条 —— 随悬停节点切换 */
+.dh-p02__focus {
+  display: flex;
+  gap: clamp(20px, 3vw, 48px);
+  align-items: baseline;
+  padding: clamp(12px, 1.4vh, 18px) clamp(16px, 2vw, 24px);
+  border-left: 2px solid var(--gold-3);
+  background: linear-gradient(90deg, rgba(201,169,97,.08), transparent 65%);
+  animation: dhP02FocusFade .35s ease;
+}
+@keyframes dhP02FocusFade {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.dh-p02__focus-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: clamp(140px, 14vw, 200px);
+}
+.dh-p02__focus-year {
+  letter-spacing: .18em;
+  color: var(--gold-4);
+}
+.dh-p02__focus-desc {
+  margin: 0;
+  color: var(--paper-2);
+  line-height: 1.85;
+}
+
+/* ——— ③ 视角图例 + REF ——— */
+.dh-p02__legend {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1vh, 14px);
+}
+.dh-p02__legend-eyebrow {
+  color: var(--gold-2);
+  letter-spacing: .42em;
+}
+.dh-p02__legend-row {
   display: flex;
   flex-wrap: wrap;
   gap: clamp(8px, 1vw, 14px);
-  margin-top: clamp(18px, 2.8vh, 36px);
+  align-items: center;
 }
-.dh-p02__sidemark {
+
+.dh-p02__chip {
+  font-family: var(--sf-sans);
+  font-size: 12px;
+  letter-spacing: .18em;
+  color: var(--paper-2);
+  background: transparent;
+  border: 1px solid rgba(154,122,62,.4);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: color .25s, border-color .25s, background .25s;
+}
+.dh-p02__chip:hover,
+.dh-p02__chip:focus-visible,
+.dh-p02__chip.--active {
+  color: var(--gold-4);
+  border-color: var(--gold-3);
+  background: rgba(201,169,97,.10);
+}
+
+.dh-p02__ref {
+  position: relative;
+  margin-left: auto;
+  outline: none;
+}
+.dh-p02__ref-trigger {
+  cursor: help;
+}
+.dh-p02__ref-pop {
   position: absolute;
-  right: clamp(16px, 2vw, 32px);
-  top: clamp(96px, 14vh, 170px);
+  bottom: calc(100% + 10px);
+  right: 0;
+  width: clamp(240px, 26vw, 340px);
+  padding: 14px 16px;
+  background: rgba(18,14,10,.96);
+  border: 1px solid rgba(154,122,62,.5);
+  color: var(--paper-2);
+  font-family: var(--sf-sans);
+  font-size: 12px;
+  line-height: 1.75;
+  letter-spacing: .04em;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity .25s ease, transform .25s ease;
+  z-index: 6;
+}
+.dh-p02__ref:hover .dh-p02__ref-pop,
+.dh-p02__ref:focus-within .dh-p02__ref-pop {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* —— 下一章 CTA —— */
+.dh-p02__next {
+  position: absolute;
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(36px, 5vh, 64px);
+  z-index: 5;
 }
 
 /* ===========================================================
@@ -417,7 +684,178 @@
 .dh-p04__figure {
   position: absolute;
   transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  /* 让长标签(陶俳优俑·尾声)不会撑出舞台宽度，破坏光环对齐 */
+  max-width: clamp(160px, 16vw, 240px);
+}
+.dh-p04__figure-stage {
+  position: relative;
+  display: block;
+  flex: 0 0 auto; /* 不被 flex 主轴压缩 */
+}
+
+/* =========================================================
+   背景光两方案（由 .dh-p04__stage 上的 --glow-XXX 修饰类切换）
+   - 影:仅描边发光 + 脚下深色细影（博物馆玻璃柜）
+   - 柱:顶部聚光柱（剧场内射灯 / 馆内射灯）
+   ========================================================= */
+
+/* ----- 方案 1:仅描边 + 脚下小阴影 ----- */
+.dh-p04__stage.--glow-shadow .dh-p04__figure-stage::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1%;
+  transform: translateX(-50%);
+  width: 76%;
+  height: 9%;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(7, 6, 10, .7) 0%,
+    rgba(7, 6, 10, .25) 50%,
+    transparent 78%);
+  filter: blur(3px);
+  pointer-events: none;
+  z-index: 0;
+}
+.dh-p04__stage.--glow-shadow .dh-p04__figure.--featured .dh-p04__figure-stage::after {
+  width: 86%;
+  height: 11%;
+}
+
+/* ----- 方案 2:顶光锥 ----- */
+.dh-p04__stage.--glow-spot .dh-p04__figure-stage::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -6%;
+  bottom: -2%;
+  transform: translateX(-50%);
+  width: 95%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(244, 223, 166, .04) 18%,
+    rgba(230, 200, 132, .10) 60%,
+    rgba(201, 169, 97, .05) 92%,
+    transparent 100%);
+  /* 上窄下宽的梯形 —— 模拟射灯发散 */
+  clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+.dh-p04__stage.--glow-spot .dh-p04__figure.--featured .dh-p04__figure-stage::before {
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(244, 223, 166, .12) 18%,
+    rgba(230, 200, 132, .22) 60%,
+    rgba(201, 169, 97, .10) 92%,
+    transparent 100%);
+}
+
+/* ========================================================
+   章 04 · 鼠标跟随金环 + 点击扩散波纹（鼓点 / 涟漪交互）
+   - 用 CSS 变量 --mx / --my 接收 mousemove 写入的 px 坐标
+   - transform translate3d 走 GPU，不抢主线程
+   ======================================================== */
+.dh-p04__cursor-rings {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.dh-p04__stage[data-cursor="1"] .dh-p04__cursor-rings {
+  opacity: 1;
+}
+.dh-p04__cursor-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  /* 鼠标位置 → CSS 变量 → translate3d；微迟滞让运动更优雅，不抖 */
+  transform: translate3d(var(--mx, -200px), var(--my, -200px), 0) translate(-50%, -50%);
+  transition: transform .12s cubic-bezier(.2, .7, .2, 1);
+  will-change: transform;
+}
+.dh-p04__cursor-ring.--r1 {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(230, 200, 132, .35);
+}
+.dh-p04__cursor-ring.--r2 {
+  width: 76px;
+  height: 76px;
+  border: 1px solid rgba(201, 169, 97, .18);
+  transition-duration: .22s; /* 外圈跟随得更慢，做"惯性"感 */
+}
+
+/* ----- 点击波纹：从点击点向外散开 ----- */
+.dh-p04__ripple {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid rgba(244, 223, 166, .9);
+  z-index: 1;
+  animation: dh-p04-ripple 1.05s cubic-bezier(.16, .85, .3, 1) forwards;
+  will-change: width, height, opacity;
+}
+@keyframes dh-p04-ripple {
+  0% {
+    width: 18px;
+    height: 18px;
+    opacity: 1;
+    border-width: 1.5px;
+    border-color: rgba(244, 223, 166, .9);
+  }
+  50% {
+    border-width: 1.2px;
+    border-color: rgba(230, 200, 132, .55);
+  }
+  100% {
+    width: 440px;
+    height: 440px;
+    opacity: 0;
+    border-width: 1px;
+    border-color: rgba(201, 169, 97, 0);
+  }
+}
+
+/* ----- 切换按钮 ----- */
+.dh-p04__glow-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.dh-p04__glow-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(154, 122, 62, .35);
+  color: var(--paper-3);
+  font-family: var(--sf-serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.dh-p04__glow-btn:hover {
+  color: var(--gold-4);
+  border-color: var(--gold-3);
+}
+.dh-p04__glow-btn.--active {
+  color: var(--ink-0);
+  background: var(--gold-3);
+  border-color: var(--gold-3);
 }
 .dh-p04__footer {
   position: absolute;
@@ -441,7 +879,7 @@
 }
 
 /* ===========================================================
-   章 05 · 文物详情 · 双栏档案 + 大图
+   章 05 · 文物详情 · 左大图 + 右档案 + 底部 5 俑切换器
    =========================================================== */
 .dh-p05__header {
   position: absolute;
@@ -459,105 +897,197 @@
   top: clamp(150px, 24vh, 240px);
   left: clamp(28px, 4vw, 72px);
   right: clamp(28px, 4vw, 72px);
-  bottom: clamp(110px, 16vh, 170px);
+  bottom: clamp(150px, 22vh, 230px);
   display: grid;
-  grid-template-columns: minmax(0, 35%) minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 56px);
+  grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 80px);
 }
-.dh-p05__card {
-  padding: clamp(20px, 2.2vw, 36px);
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-.dh-p05__fields {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(8px, 1.4vh, 18px);
-  flex: 1;
-  min-height: 0;
-}
-.dh-p05__field-row {
-  display: grid;
-  grid-template-columns: clamp(60px, 6vw, 96px) minmax(0, 1fr);
-  align-items: baseline;
-  gap: clamp(10px, 1vw, 18px);
-}
-.dh-p05__card-footer {
-  margin-top: clamp(14px, 2vh, 28px);
-}
-.dh-p05__card-meta {
-  display: flex;
-  justify-content: space-between;
-  margin-top: clamp(8px, 1.2vh, 16px);
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.dh-p05__viewer-col {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(10px, 1.6vh, 22px);
-  min-height: 0;
-}
+
+/* —— 左:水彩主图 viewer —— */
 .dh-p05__viewer {
-  flex: 1;
   position: relative;
-  border: 1px solid rgba(154, 122, 62, .4);
-  background:
-    radial-gradient(40% 55% at 50% 60%, rgba(201, 169, 97, .18), transparent 70%),
-    linear-gradient(180deg, rgba(20, 16, 12, .5), rgba(7, 6, 10, .95));
-  min-height: clamp(280px, 40vh, 520px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.dh-p05__halo {
+  position: absolute;
+  width: clamp(280px, 32vw, 460px);
+  height: clamp(280px, 32vw, 460px);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side,
+    rgba(230, 200, 132, .14) 0%,
+    rgba(201, 169, 97, .08) 35%,
+    rgba(201, 169, 97, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 .dh-p05__viewer-figure {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(16px, 3vh, 40px);
-  transform: translateX(-50%);
+  position: relative;
+  z-index: 1;
+  animation: dh-p05-fade-in .55s cubic-bezier(.2,.7,.2,1);
 }
-.dh-p05__viewer-toolbar {
+.dh-p05__viewer-corner {
   position: absolute;
-  top: clamp(10px, 1.4vh, 18px);
-  left: clamp(10px, 1.2vw, 20px);
-  right: clamp(10px, 1.2vw, 20px);
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 2;
 }
-.dh-p05__viewer-ruler {
-  position: absolute;
-  bottom: clamp(8px, 1.2vh, 16px);
-  left: 0;
-  right: 0;
+.dh-p05__viewer-corner.--tl { top: 6px; left: 6px; align-items: flex-start; }
+.dh-p05__viewer-corner.--br { bottom: 6px; right: 6px; align-items: flex-end; text-align: right; }
+.dh-p05__viewer-corner .dh-caption { opacity: .55; }
+
+@keyframes dh-p05-fade-in {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);   }
+}
+
+/* —— 右:档案 doc —— */
+.dh-p05__doc {
   display: flex;
-  justify-content: center;
-  gap: 6px;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vh, 20px);
+  min-height: 0;
+  animation: dh-p05-fade-in .55s cubic-bezier(.2,.7,.2,1);
 }
-.dh-p05__actions {
+.dh-p05__doc-ordinal {
+  font-family: var(--sf-serif);
+  font-size: clamp(15px, 1.0vw + .25vh, 18px);
+  letter-spacing: .42em;
+  color: var(--gold-3);
+}
+.dh-p05__doc-title { margin: 0; }
+.dh-p05__doc-meta {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1vh, 12px);
+  padding-block: clamp(10px, 1.6vh, 18px);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+.dh-p05__doc-meta-row {
+  display: grid;
+  grid-template-columns: clamp(48px, 5vw, 72px) minmax(0, 1fr);
+  align-items: baseline;
+  gap: clamp(12px, 1.4vw, 24px);
+}
+.dh-p05__doc-meta-row dt {
+  color: var(--gold-3);
+  letter-spacing: .32em;
+  margin: 0;
+}
+.dh-p05__doc-meta-row dd { margin: 0; color: var(--paper-1); }
+
+.dh-p05__doc-body {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 14px);
+  overflow-y: auto;
+  padding-right: 6px;
+  flex: 1;
+  min-height: 0;
+}
+.dh-p05__doc-body p { margin: 0; }
+
+.dh-p05__doc-cta {
   display: flex;
   gap: clamp(8px, 1vw, 16px);
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
+  padding-top: clamp(6px, 1vh, 12px);
 }
-.dh-p05__actions > button {
-  flex: 1 1 0;
-  justify-content: center;
-  min-width: 0;
-}
-.dh-p05__footer {
+.dh-p05__doc-cta > * { min-width: 0; }
+
+/* —— 底部:5 俑切换器 —— */
+.dh-p05__switcher {
   position: absolute;
-  bottom: clamp(18px, 2.4vh, 36px);
+  bottom: clamp(20px, 3vh, 42px);
   left: clamp(28px, 4vw, 72px);
   right: clamp(28px, 4vw, 72px);
+  z-index: 2;
 }
-.dh-p05__footer-rule {
-  margin-bottom: clamp(8px, 1.4vh, 18px);
+.dh-p05__switcher-rule {
+  height: 1px;
+  margin-bottom: clamp(12px, 1.8vh, 22px);
+  background: linear-gradient(90deg,
+    transparent,
+    rgba(154, 122, 62, .35) 20%,
+    rgba(201, 169, 97, .55) 50%,
+    rgba(154, 122, 62, .35) 80%,
+    transparent);
 }
-.dh-p05__footer-text {
-  margin: 0;
-  font-style: normal;
-  max-width: min(1300px, 96vw);
+.dh-p05__switcher-row {
+  display: flex;
+  justify-content: space-between;
+  gap: clamp(12px, 2vw, 28px);
+}
+.dh-p05__switcher-item {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px 10px;
+  background: transparent;
+  border: none;
+  color: var(--paper-3);
+  cursor: pointer;
+  opacity: .42;
+  position: relative;
+  transition: opacity .35s ease, transform .35s cubic-bezier(.2, .7, .2, 1);
+}
+.dh-p05__switcher-item:hover {
+  opacity: .9;
+  transform: translateY(-3px);
+}
+.dh-p05__switcher-item.--active { opacity: 1; }
+.dh-p05__switcher-item.--active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  right: 30%;
+  height: 1px;
+  background: var(--gold-3);
+}
+.dh-p05__switcher-num {
+  font-family: var(--sf-serif);
+  font-size: clamp(11px, .42vw + .14vh, 13px);
+  letter-spacing: .32em;
+  color: var(--paper-4);
+  transition: color .25s ease;
+}
+.dh-p05__switcher-item.--active .dh-p05__switcher-num,
+.dh-p05__switcher-item:hover .dh-p05__switcher-num {
+  color: var(--gold-3);
+}
+.dh-p05__switcher-thumb { display: flex; align-items: center; justify-content: center; }
+.dh-p05__switcher-name {
+  color: var(--paper-4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.dh-p05__switcher-item.--active .dh-p05__switcher-name { color: var(--paper-1); }
+
+/* 缩略图自带的金色光环在切换器里压一档
+   特异性提到 .dh-stage 一级，以盖过全局 figurine-img 滤镜 */
+.dh-stage .dh-p05__switcher-thumb .dh-figurine-img {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .45));
+}
+.dh-stage .dh-p05__switcher-item:hover .dh-p05__switcher-thumb .dh-figurine-img,
+.dh-stage .dh-p05__switcher-item.--active .dh-p05__switcher-thumb .dh-figurine-img {
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, .55))
+          drop-shadow(0 0 14px rgba(201, 169, 97, .35));
 }
 
 /* ===========================================================

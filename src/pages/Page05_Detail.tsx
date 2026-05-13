@@ -1,15 +1,107 @@
-import { DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
+import { useSearchParams, Link } from 'react-router-dom';
+import {
+  DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners,
+  DhSection, DhMeander, cn,
+} from '../components/atmosphere';
+
+type Figure = {
+  code: string;     // FIG-01..05
+  cn: string;       // 中文俑名
+  en: string;       // 英文副标题
+  catalog: string;  // 编号
+  excavation: string; // 出土
+  museum: string;   // 现藏地
+  paragraphs: string[]; // 简介，2-3 段
+};
+
+const FIGURES: Figure[] = [
+  {
+    code: 'FIG-01',
+    cn: '击鼓说唱俑',
+    en: 'EASTERN HAN · DRUMMING STORYTELLER',
+    catalog: '东汉墓 · 墓三',
+    excavation: '四川省成都市天回山东汉崖墓',
+    museum: '中国国家博物馆',
+    paragraphs: [
+      '东汉击鼓说唱陶俑于 1957 年出土于四川省成都市天回山东汉崖墓，为东汉明器。',
+      '通高 56 厘米，以泥质灰陶制成；头上戴帻，两肩高耸，着裤赤足，左臂环抱一扁鼓，右手举槌欲击，张口嘻笑，神态诙谐，动作夸张，活现一俳优正在说唱的形象。',
+      '东汉击鼓说唱陶俑被誉为「汉代第一俑」，是一件富有浓厚民间气息和地方风貌的优秀雕塑作品，属国家一级文物。',
+    ],
+  },
+  {
+    code: 'FIG-02',
+    cn: '陶说唱俑',
+    en: 'EASTERN HAN · PIPED SINGER',
+    catalog: '东汉陶 · 宋家林',
+    excavation: '四川省郫县宋家林砖室墓',
+    museum: '四川博物院',
+    paragraphs: [
+      '东汉陶说唱俑于 1963 年出土于四川省郫县宋家林砖室墓，现藏于四川博物院，为国家一级文物。通高 66.5 厘米，以泥质灰陶制成。',
+      '头顶作椎髻，双目微闭，歪嘴吐舌，两肩高耸，左手托鼓，右手执槌欲击。上身赤裸，鼓腹翘臀，宽肥长裤垂落至臀下，造型夸张生动，活现一位正在击鼓说唱的俳优形象。',
+      '以强烈的艺术夸张和鲜活的动态表现，被认为是汉代陶塑艺术与民间说唱文化的重要代表，展现了东汉时期四川地区乐观活泼的社会生活气息。',
+    ],
+  },
+  {
+    code: 'FIG-03',
+    cn: '陶俳优俑 · 李家梁',
+    en: 'EASTERN HAN · SHU REGION ENTERTAINER',
+    catalog: '东汉陶 · 李家梁',
+    excavation: '四川省成都金堂县李家梁子汉墓',
+    museum: '成都博物馆',
+    paragraphs: [
+      '东汉陶俳优俑出土于四川省成都市金堂县李家梁子汉墓，现藏于成都博物馆。该俑通高 60 厘米、宽 40 厘米，为东汉陶俑。',
+      '头戴巾帽，着裤赤足，上身袒露，双肩高耸，左手执鼓，右手作执槌击鼓状。右脚蹬踢，左脚蜷曲，仰面大笑，动作与神情都极为夸张，活现一位正在表演的俳优形象。',
+      '以生动的动态、诙谐的表情和强烈的艺术感染力，展现了汉代四川地区丰富活跃的百戏文化与民间娱乐生活，也体现出东汉陶塑艺术鲜明的写实性和表现力。',
+    ],
+  },
+  {
+    code: 'FIG-04',
+    cn: '陶说唱俑 · 九龙山',
+    en: 'EASTERN HAN · JIULONGSHAN PERFORMER',
+    catalog: '东汉陶 · 九龙山',
+    excavation: '河边镇九龙山',
+    museum: '成都博物馆',
+    paragraphs: [
+      '东汉陶说唱俑出土于河边镇九龙山，现藏于成都博物馆。',
+      '该俑为东汉陶俑，造型生动质朴。俑体前倾，双肩耸起，腹部隆起，双手收于身前，头部微低，面部神情夸张，呈现出强烈的表演感与动态感，塑造出一位正在说唱表演中的俳优形象。',
+      '以概括而富有张力的肢体语言，展现出东汉时期四川地区民间说唱艺术和市井娱乐生活的生动面貌，也体现出汉代陶俑艺术中鲜明的现实性与表现力。',
+    ],
+  },
+  {
+    code: 'FIG-05',
+    cn: '陶俳优俑 · 六一一所',
+    en: 'EASTERN HAN · FINALE PERFORMER',
+    catalog: '东汉陶 · 六一一所',
+    excavation: '成都六一一所汉墓',
+    museum: '成都博物馆',
+    paragraphs: [
+      '东汉陶俳优俑出土于成都六一一所汉墓，现藏成都博物馆。',
+      '俑体前倾，双肩高耸，腹部隆起，左臂高举，右手屈肘收于胸前，双腿一前一后，神情夸张，动作富有张力，活现一位正在表演的俳优形象。',
+      '以生动的动态、诙谐的表情和强烈的艺术感染力，展现了汉代四川地区市井娱乐和民间表演的活跃景象，也体现出东汉陶俑艺术鲜明的写实性与表现力。',
+    ],
+  },
+];
+
+const codeToIndex = (code: string | null): number => {
+  if (!code) return 0;
+  const m = code.match(/(\d+)/);
+  if (!m) return 0;
+  const i = parseInt(m[1], 10) - 1;
+  return Math.min(Math.max(i, 0), FIGURES.length - 1);
+};
 
 export default function Page05_Detail() {
-  const fields = [
-    ["名称",    "击鼓说唱俑"],
-    ["年代",    "东汉 · 公元一至二世纪"],
-    ["出土地",  "四川省成都市天回山崖墓"],
-    ["现藏地",  "中国国家博物馆"],
-    ["材质",    "灰陶 · 局部残存彩绘"],
-    ["造型特徵", "席地而坐，左臂环鼓，右手扬槌；张口吐舌，双肩高耸。"],
-    ["角色定位", "主叙事者 / 唤醒者"],
-  ];
+  const [params, setParams] = useSearchParams();
+  const idx = codeToIndex(params.get('fig'));
+  const fig = FIGURES[idx];
+
+  const setFig = (i: number) => {
+    const code = (i + 1).toString().padStart(2, '0');
+    setParams({ fig: code });
+  };
+
+  const total = FIGURES.length;
+  const ordinal = `零·${cn(idx + 1)}`;
 
   return (
     <div className="dh-stage">
@@ -19,82 +111,112 @@ export default function Page05_Detail() {
         <DhParticles count={45} seed={23} opacityRange={[.15, .5]} />
 
         <div className="dh-p05__header">
-          <DhSection num="伍" label="ARTIFACT · 詳情模板" title="文物不是静止的" />
-          <div className="dh-caption">TEMPLATE · 五俑通用</div>
+          <DhSection num="伍" label="ARTIFACT FILE · 文物档案" title="五件俑的来路与去向" />
+          <div className="dh-caption">
+            {String(idx + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </div>
         </div>
 
         {/* 主区双栏 */}
         <div className="dh-p05__main">
 
-          {/* 左：档案 */}
-          <div className="dh-card dh-p05__card">
-            <DhCorners />
-            <div className="dh-caption" style={{ marginBottom: 8 }}>ARCHIVE · 文物档案</div>
-            <div className="dh-title-m" style={{ marginBottom: 6 }}>FIG-01</div>
-            <div className="dh-rule" style={{ width: 60, marginBottom: 22 }} />
-
-            <div className="dh-p05__fields">
-              {fields.map(([k, v]) => (
-                <div key={k} className="dh-p05__field-row">
-                  <div className="dh-caption" style={{ color: "var(--gold-2)" }}>{k}</div>
-                  <div className="dh-body" style={{ color: "var(--paper-1)" }}>{v}</div>
-                </div>
-              ))}
+          {/* 左:水彩主图 + 光环 */}
+          <div className="dh-p05__viewer">
+            <div className="dh-p05__halo" aria-hidden="true" />
+            <div className="dh-p05__viewer-figure" key={fig.code}>
+              <DhFigurine
+                width={320}
+                height={420}
+                label={fig.cn}
+                code={fig.code}
+                featured
+              />
             </div>
-
-            <div className="dh-p05__card-footer">
-              <div className="dh-rule" />
-              <div className="dh-p05__card-meta">
-                <span className="dh-caption">FILE · EH·CHIEF · 2026.05</span>
-                <span className="dh-caption">01 / 05</span>
-              </div>
+            <div className="dh-p05__viewer-corner --tl">
+              <span className="dh-caption">{fig.code}</span>
+              <span className="dh-caption">2026 · DIGITAL ARCHIVE</span>
+            </div>
+            <div className="dh-p05__viewer-corner --br">
+              <span className="dh-caption">{ordinal} · {String(idx + 1).padStart(2, '0')}/0{total}</span>
+              <span className="dh-caption">REF · 后汉书 · 风俗通义</span>
             </div>
           </div>
 
-          {/* 右：大图 + 操作 */}
-          <div className="dh-p05__viewer-col">
-            <div className="dh-p05__viewer">
-              {/* 占位 3D 模型 */}
-              <div className="dh-p05__viewer-figure">
-                <DhFigurine width={220} height={420} label="击鼓说唱俑" code="FIG-01 · 3D" featured />
-              </div>
-              <DhParticles count={50} seed={29} sizeRange={[1, 2.6]} opacityRange={[.2, .8]} />
-              <div className="dh-corner tl" />
-              <div className="dh-corner tr" />
-              <div className="dh-corner bl" />
-              <div className="dh-corner br" />
+          {/* 右:档案 */}
+          <div className="dh-p05__doc" key={fig.code + '-doc'}>
+            <div className="dh-p05__doc-ordinal">{ordinal}</div>
+            <h2 className="dh-title-l dh-p05__doc-title" style={{ margin: 0 }}>{fig.cn}</h2>
+            <div className="dh-eyebrow">{fig.en}</div>
+            <DhMeander width={260} />
 
-              {/* 顶部工具条 */}
-              <div className="dh-p05__viewer-toolbar">
-                <span className="dh-caption">3D MODEL · GLB · 0.0.1</span>
-                <span className="dh-caption">VIEW · 正面 / 側面 / 俯视 / 自由</span>
+            {/* 元数据三行 */}
+            <dl className="dh-p05__doc-meta">
+              <div className="dh-p05__doc-meta-row">
+                <dt className="dh-caption">编号</dt>
+                <dd className="dh-body">{fig.catalog}</dd>
               </div>
+              <div className="dh-p05__doc-meta-row">
+                <dt className="dh-caption">出土</dt>
+                <dd className="dh-body">{fig.excavation}</dd>
+              </div>
+              <div className="dh-p05__doc-meta-row">
+                <dt className="dh-caption">现藏</dt>
+                <dd className="dh-body">{fig.museum}</dd>
+              </div>
+            </dl>
 
-              {/* 底部刻度 */}
-              <div className="dh-p05__viewer-ruler">
-                {Array.from({ length: 24 }).map((_, i) => (
-                  <div key={i} style={{ width: 1, height: i % 6 === 0 ? 10 : 6, background: "rgba(154,122,62,.4)" }} />
-                ))}
-              </div>
+            {/* 简介段落 */}
+            <div className="dh-p05__doc-body dh-scroll">
+              {fig.paragraphs.map((p, i) => (
+                <p key={i} className="dh-body">{p}</p>
+              ))}
             </div>
 
-            {/* 三按钮 */}
-            <div className="dh-p05__actions">
-              <button className="dh-btn">看造型</button>
-              <button className="dh-btn">听故事</button>
-              <button className="dh-btn">进入互动</button>
+            {/* 下一步 */}
+            <div className="dh-p05__doc-cta">
+              <button
+                className="dh-btn-ghost"
+                onClick={() => setFig((idx - 1 + total) % total)}
+                aria-label="上一件"
+              >
+                ← {(idx === 0 ? FIGURES[total - 1] : FIGURES[idx - 1]).cn}
+              </button>
+              <Link to="/interaction" className="dh-btn-ghost">进入互动 →</Link>
+              <button
+                className="dh-btn-ghost"
+                onClick={() => setFig((idx + 1) % total)}
+                aria-label="下一件"
+              >
+                {(idx === total - 1 ? FIGURES[0] : FIGURES[idx + 1]).cn} →
+              </button>
             </div>
           </div>
         </div>
 
-        {/* 底部叙事 */}
-        <div className="dh-p05__footer">
-          <div className="dh-rule dh-p05__footer-rule" />
-          <p className="dh-body dh-p05__footer-text">
-            「这件陶俑的重点不在于像不像真人，而在于它捕捉了表演最生动的一瞬间：
-            身体前倾、鼓槌抬起、嘴角张开、笑意外放——它让我们看见汉代民间艺人如何用身体制造戏剧，
-            也让我们看见乱世中普通人的乐观与韧性。」
-          </p>
+        {/* 底部:5 俑切换器 */}
+        <div className="dh-p05__switcher">
+          <div className="dh-p05__switcher-rule" />
+          <div className="dh-p05__switcher-row">
+            {FIGURES.map((f, i) => {
+              const active = i === idx;
+              return (
+                <button
+                  key={f.code}
+                  type="button"
+                  className={`dh-p05__switcher-item ${active ? '--active' : ''}`}
+                  onClick={() => setFig(i)}
+                  aria-label={`切换到 ${f.cn}`}
+                  aria-current={active ? 'true' : undefined}
+                >
+                  <div className="dh-p05__switcher-num">零·{cn(i + 1)}</div>
+                  <div className="dh-p05__switcher-thumb">
+                    <DhFigurine width={56} height={72} label={f.cn} code={f.code} />
+                  </div>
+                  <div className="dh-p05__switcher-name dh-caption">{f.cn}</div>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <DhCorners />
