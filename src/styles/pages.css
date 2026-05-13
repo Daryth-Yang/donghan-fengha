@@ -149,6 +149,11 @@
   padding-left: 18px;
   overflow-y: auto;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
+  /* 节点纵向均匀分布，吃掉父级高度 */
+  justify-content: space-between;
+  gap: clamp(16px, 2.4vh, 36px);
 }
 .dh-p02__timeline-rule {
   position: absolute;
@@ -157,11 +162,13 @@
   bottom: 4px;
 }
 .dh-p02__timeline-cap {
-  margin-bottom: clamp(12px, 1.8vh, 24px);
+  margin-bottom: 0;
+  flex: 0 0 auto;
 }
 .dh-p02__node {
   position: relative;
-  margin-bottom: clamp(20px, 3vh, 40px);
+  margin-bottom: 0;
+  flex: 0 0 auto;
 }
 .dh-p02__node-dot {
   position: absolute;
@@ -201,8 +208,9 @@
   margin-top: clamp(18px, 3vh, 36px);
   max-width: min(640px, 60vw);
 }
+/* 强调卡 + 标签条向下推到底部，让正文区自然铺满列高 */
 .dh-p02__emphasis {
-  margin-top: clamp(22px, 3.5vh, 44px);
+  margin-top: auto;
   padding: clamp(20px, 2.6vh, 34px) clamp(22px, 2.8vw, 38px);
   max-width: min(680px, 64vw);
   position: relative;
@@ -505,6 +513,13 @@
   gap: clamp(20px, 3vw, 56px);
   min-height: 0;
 }
+/* 每列变 flex 纵向，内部块用 flex: 1 / 自动 margin 吃满高度 */
+.dh-p06__main > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: clamp(10px, 1.4vh, 20px);
+}
 @media (max-width: 900px) {
   .dh-p06__main {
     grid-template-columns: 1fr;
@@ -513,13 +528,18 @@
 }
 
 .dh-p06__col-title {
-  margin-bottom: clamp(10px, 1.4vh, 18px);
+  margin-bottom: 0;
+  flex: 0 0 auto;
 }
 
 .dh-p06__flow {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  /* 六步在列高里均匀分布 */
+  justify-content: space-between;
   gap: clamp(8px, 1.2vh, 16px);
+  min-height: 0;
 }
 .dh-p06__step {
   padding: clamp(10px, 1.6vh, 20px) clamp(14px, 1.8vw, 24px);
@@ -527,6 +547,7 @@
   grid-template-columns: clamp(34px, 4vw, 52px) clamp(80px, 9vw, 120px) 1fr;
   gap: clamp(10px, 1.4vw, 22px);
   align-items: center;
+  flex: 0 0 auto;
 }
 .dh-p06__step-num { color: var(--gold-4); }
 .dh-p06__step-desc {
@@ -535,11 +556,12 @@
 }
 
 .dh-p06__states {
+  flex: 1 1 auto;
+  min-height: clamp(240px, 36vh, 420px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   gap: clamp(8px, 1.2vh, 16px);
-  height: clamp(280px, 52vh, 520px);
 }
 .dh-p06__state-card {
   position: relative;
@@ -571,12 +593,13 @@
 }
 
 .dh-p06__hardware {
-  margin-top: clamp(10px, 1.8vh, 22px);
+  margin-top: 0;
   padding: clamp(10px, 1.6vh, 20px) clamp(14px, 1.6vw, 22px);
   display: flex;
   flex-wrap: wrap;
   gap: clamp(8px, 1.2vw, 18px);
   align-items: center;
+  flex: 0 0 auto;
 }
 .dh-p06__hardware-label { color: var(--gold-3); }
 
