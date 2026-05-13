@@ -14,7 +14,7 @@ export default function NotFound() {
         <DhMist />
         <DhParticles count={70} seed={101} opacityRange={[0.18, 0.55]} />
 
-        <main style={{ position: 'absolute', inset: '64px 0 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 80px', textAlign: 'center' }}>
+        <section style={{ position: 'absolute', inset: '64px 0 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 80px', textAlign: 'center' }}>
           <div className="dh-eyebrow" style={{ marginBottom: 18 }}>OFF-SCROLL · 404</div>
           <h1 className="dh-title-xl" style={{ margin: 0, fontSize: 72 }}>路径未收录</h1>
           <div style={{ display: 'flex', justifyContent: 'center', margin: '26px auto 22px' }}>
@@ -30,7 +30,7 @@ export default function NotFound() {
             <Link to="/" className="dh-btn">回到首章 ——→</Link>
             <Link to="/figures" className="dh-btn-ghost">查看文物群像</Link>
           </div>
-        </main>
+        </section>
 
         <DhCorners />
       </div>
