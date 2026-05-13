@@ -41,8 +41,9 @@ export default function Page04_Group() {
           <div style={{ position: "absolute", inset: 0 }}>
             {figures.map((f, i) => {
               const total = figures.length;
-              const xPct = 12 + (i / (total - 1)) * 76;
-              const arcY = 240 - Math.sin((i / (total - 1)) * Math.PI) * 90;
+              const ratio = total > 1 ? i / (total - 1) : 0.5;
+              const xPct = 12 + ratio * 76;
+              const arcY = 240 - Math.sin(ratio * Math.PI) * 90;
               return (
                 <div key={i} style={{
                   position: "absolute",

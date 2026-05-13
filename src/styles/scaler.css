@@ -21,22 +21,8 @@
     #050407;
 }
 
-/* 微噪点 —— 与 .dh-stage 同款，让无内容区也有宣纸纤维感 */
-.dh-scaler::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(rgba(255, 235, 195, .025) 1px, transparent 1px),
-    radial-gradient(rgba(255, 235, 195, .015) 1px, transparent 1px);
-  background-size: 3px 3px, 7px 7px;
-  background-position: 0 0, 1px 2px;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  z-index: 0;
-}
-
-/* 极远山水剪影 —— 让上下留白也成为风景 */
+/* 极远山水剪影 —— 让上下留白也成为风景
+   （宣纸纤维噪点交由 .dh-stage::after 提供，避免双层 blend-mode 合成开销） */
 .dh-scaler::after {
   content: "";
   position: absolute;
@@ -72,14 +58,15 @@
     0 0 120px rgba(201, 169, 97, .08);
 }
 
-/* 路由切换淡入 */
+/* 路由切换淡入：让位给 .dh-stage > .dh-frame 的 dhStageIn，
+   外层只做轻量 opacity 过渡，避免 blur 全屏 + 双层动画叠加 */
 @keyframes dhRouteIn {
-  0%   { opacity: 0; transform: translateY(8px) scale(var(--dh-scale, 1)); filter: blur(6px); }
-  100% { opacity: 1; transform: translateY(0)   scale(var(--dh-scale, 1)); filter: blur(0); }
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 .dh-route-enter {
-  animation: dhRouteIn .9s cubic-bezier(.22,.61,.36,1) both;
+  animation: dhRouteIn .4s ease-out both;
 }
 
 /* 极窄屏（移动端 / 平板竖屏）兜底：允许垂直滚动而非过度缩小 */

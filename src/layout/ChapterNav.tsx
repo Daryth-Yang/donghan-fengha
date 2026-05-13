@@ -1,8 +1,8 @@
 /* ===========================================================
    ChapterNav.tsx — 浮动章节快捷导航（右下角）
-   提供 10 章之间的快速跳转 + 上下章
+   提供 10 章之间的快速跳转 + 上下章 + 键盘提示
    =========================================================== */
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export type Chapter = {
@@ -26,17 +26,37 @@ export const CHAPTERS: Chapter[] = [
   { num: '10', cn: '拾', path: '/ending',       title: '结尾 · 笑声归尘',     nav: '首页' },
 ];
 
+const HINT_KEY = 'donghan.nav-hint-seen';
+
 export default function ChapterNav() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const idx = useMemo(() => CHAPTERS.findIndex((c) => c.path === pathname), [pathname]);
+
+  const [showHint, setShowHint] = useState(() => {
+    try { return localStorage.getItem(HINT_KEY) !== '1'; } catch { return true; }
+  });
+  useEffect(() => {
+    if (!showHint) return;
+    const dismiss = () => {
+      setShowHint(false);
+      try { localStorage.setItem(HINT_KEY, '1'); } catch {}
+    };
+    const t = setTimeout(dismiss, 6000);
+    window.addEventListener('keydown', dismiss, { once: true });
+    return () => {
+      clearTimeout(t);
+      window.removeEventListener('keydown', dismiss);
+    };
+  }, [showHint]);
 
   if (idx < 0) return null;
   const prev = CHAPTERS[idx - 1];
   const next = CHAPTERS[idx + 1];
 
   return (
-    <div
+    <nav
+      aria-label="章节快捷导航"
       style={{
         position: 'fixed',
         right: 24,
@@ -48,17 +68,44 @@ export default function ChapterNav() {
         pointerEvents: 'none',
       }}
     >
+      {showHint && (
+        <div
+          aria-hidden="true"
+          style={{
+            pointerEvents: 'none',
+            position: 'absolute',
+            right: 0,
+            bottom: 'calc(100% + 10px)',
+            padding: '6px 12px',
+            fontFamily: 'var(--sf-mono)',
+            fontSize: 10,
+            letterSpacing: '.32em',
+            color: 'var(--gold-3)',
+            background: 'rgba(7,6,10,.72)',
+            backdropFilter: 'blur(8px)',
+            border: '1px solid rgba(154,122,62,.32)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          ← →  键盘翻章
+        </div>
+      )}
+
       {prev && (
         <button
+          type="button"
           onClick={() => navigate(prev.path)}
-          title={`${prev.num} · ${prev.title}`}
-          className="dh-btn-ghost"
+          title={`上一章 · ${prev.num} · ${prev.title}`}
+          aria-label={`上一章 · 第 ${prev.cn} 章 · ${prev.title}`}
+          className="dh-btn-ghost dh-nav-btn"
           style={{ padding: '8px 14px', fontSize: 11, pointerEvents: 'auto' }}
         >
           ← {prev.num}
         </button>
       )}
       <div
+        role="tablist"
+        aria-label="跳转到指定章节"
         style={{
           pointerEvents: 'auto',
           display: 'flex',
@@ -69,40 +116,53 @@ export default function ChapterNav() {
           border: '1px solid rgba(154,122,62,.32)',
         }}
       >
-        {CHAPTERS.map((c, i) => (
-          <button
-            key={c.path}
-            onClick={() => navigate(c.path)}
-            title={`${c.cn} · ${c.title}`}
-            style={{
-              width: 18,
-              height: 18,
-              border: '1px solid var(--gold-2)',
-              background: i === idx ? 'var(--gold-3)' : 'transparent',
-              boxShadow: i === idx ? '0 0 10px rgba(230,200,132,.7)' : 'none',
-              cursor: 'pointer',
-              fontFamily: 'var(--sf-serif)',
-              fontSize: 10,
-              color: i === idx ? 'var(--ink-0)' : 'var(--gold-3)',
-              letterSpacing: 0,
-              padding: 0,
-              lineHeight: 1,
-            }}
-          >
-            {c.cn}
-          </button>
-        ))}
+        {CHAPTERS.map((c, i) => {
+          const active = i === idx;
+          return (
+            <button
+              key={c.path}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              aria-current={active ? 'page' : undefined}
+              aria-label={`第 ${c.cn} 章 · ${c.title}`}
+              title={`${c.cn} · ${c.title}`}
+              onClick={() => navigate(c.path)}
+              className="dh-nav-chip"
+              data-active={active || undefined}
+              style={{
+                width: 22,
+                height: 22,
+                border: '1px solid var(--gold-2)',
+                background: active ? 'rgba(40,30,18,.6)' : 'transparent',
+                boxShadow: active ? '0 0 12px rgba(230,200,132,.55), inset 0 0 8px rgba(201,169,97,.25)' : 'none',
+                cursor: 'pointer',
+                fontFamily: 'var(--sf-serif)',
+                fontSize: 12,
+                color: active ? 'var(--gold-4)' : 'var(--gold-2)',
+                letterSpacing: 0,
+                padding: 0,
+                lineHeight: 1,
+                transition: 'all .25s ease',
+              }}
+            >
+              {c.cn}
+            </button>
+          );
+        })}
       </div>
       {next && (
         <button
+          type="button"
           onClick={() => navigate(next.path)}
-          title={`${next.num} · ${next.title}`}
-          className="dh-btn-ghost"
+          title={`下一章 · ${next.num} · ${next.title}`}
+          aria-label={`下一章 · 第 ${next.cn} 章 · ${next.title}`}
+          className="dh-btn-ghost dh-nav-btn"
           style={{ padding: '8px 14px', fontSize: 11, pointerEvents: 'auto' }}
         >
           {next.num} →
         </button>
       )}
-    </div>
+    </nav>
   );
 }

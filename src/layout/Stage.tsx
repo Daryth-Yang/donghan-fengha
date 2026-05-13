@@ -24,22 +24,18 @@ export default function Stage({ children }: { children: ReactNode }) {
     compute();
     const ro = new ResizeObserver(compute);
     ro.observe(el);
-    window.addEventListener('resize', compute);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener('resize', compute);
-    };
+    return () => ro.disconnect();
   }, []);
 
   return (
-    <div ref={wrapRef} className="dh-scaler">
-      <div
+    <div ref={wrapRef} className="dh-scaler" role="presentation">
+      <main
         className="dh-scaler__inner dh-route-enter"
         key={pathname}
         style={{ ['--dh-scale' as string]: scale } as CSSProperties}
       >
         {children}
-      </div>
+      </main>
     </div>
   );
 }

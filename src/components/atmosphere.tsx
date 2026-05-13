@@ -2,7 +2,7 @@
    atmosphere.tsx — 共用大气层 & 装饰组件
    黑金水墨视觉系统的可复用片段
    =========================================================== */
-import { Fragment, useMemo, type CSSProperties } from 'react';
+import { Fragment, useMemo, type CSSProperties, type ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 
 /* —— 山水剪影：背 / 中 / 前 三层 —— */
@@ -21,21 +21,30 @@ export function DhMist() {
   return <div className="dh-mist" />;
 }
 
-/* —— 金色粒子云 —— */
+/* —— 金色粒子云 ——
+   注意：sizeRange/opacityRange 用元组解构后取标量进 deps，避免
+   父组件每次 render 传入新数组字面量导致 useMemo 失效、120 个粒子
+   重新构造、所有 CSS 动画从头重启。 */
 type DhParticlesProps = {
   count?: number;
   area?: 'full' | 'bottom' | 'top';
   seed?: number;
-  sizeRange?: [number, number];
-  opacityRange?: [number, number];
+  sizeRange?: readonly [number, number];
+  opacityRange?: readonly [number, number];
 };
+
+const DEFAULT_SIZE_RANGE = [1, 3] as const;
+const DEFAULT_OPACITY_RANGE = [0.25, 0.9] as const;
+
 export function DhParticles({
   count = 80,
   area = 'full',
   seed = 1,
-  sizeRange = [1, 3],
-  opacityRange = [0.25, 0.9],
+  sizeRange = DEFAULT_SIZE_RANGE,
+  opacityRange = DEFAULT_OPACITY_RANGE,
 }: DhParticlesProps) {
+  const [sMin, sMax] = sizeRange;
+  const [oMin, oMax] = opacityRange;
   const dots = useMemo(() => {
     let s = seed * 9301 + 49297;
     const rand = () => {
@@ -50,17 +59,17 @@ export function DhParticles({
       let y = rand() * 100;
       if (area === 'bottom') y = 55 + rand() * 45;
       if (area === 'top') y = rand() * 45;
-      const size = sizeRange[0] + rand() * (sizeRange[1] - sizeRange[0]);
-      const op = opacityRange[0] + rand() * (opacityRange[1] - opacityRange[0]);
+      const size = sMin + rand() * (sMax - sMin);
+      const op = oMin + rand() * (oMax - oMin);
       const dur = 4 + rand() * 8;
       const delay = -rand() * dur;
       arr.push({ x, y, size, op, dur, delay, hue: rand() > 0.7 ? '#f4dfa6' : '#c9a961' });
     }
     return arr;
-  }, [count, area, seed, sizeRange, opacityRange]);
+  }, [count, area, seed, sMin, sMax, oMin, oMax]);
 
   return (
-    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+    <div aria-hidden="true" style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
       {dots.map((d, i) => (
         <div
           key={i}
@@ -84,7 +93,7 @@ export function DhParticles({
 }
 
 /* —— 顶部导航（使用 React Router） —— */
-const NAV_ITEMS: Array<{ label: string; path: string }> = [
+const NAV_ITEMS: ReadonlyArray<{ label: string; path: string }> = [
   { label: '首页', path: '/' },
   { label: '历史背景', path: '/history' },
   { label: '文物群像', path: '/figures' },
@@ -94,12 +103,12 @@ const NAV_ITEMS: Array<{ label: string; path: string }> = [
 
 export function DhTopBar({ active, page = '01' }: { active?: string; page?: string }) {
   return (
-    <div className="dh-topbar">
-      <NavLink to="/" className="dh-brand" style={{ textDecoration: 'none' }}>
-        <div className="dh-brand-mark" />
+    <header className="dh-topbar" role="banner">
+      <NavLink to="/" className="dh-brand" style={{ textDecoration: 'none' }} aria-label="东汉风华 · 俳优之志 · 回到首页">
+        <div className="dh-brand-mark" aria-hidden="true" />
         <span>东汉风华 · 俳优之志</span>
       </NavLink>
-      <div className="dh-nav">
+      <nav className="dh-nav" aria-label="主导航">
         {NAV_ITEMS.map((n) => (
           <NavLink
             key={n.label}
@@ -112,9 +121,9 @@ export function DhTopBar({ active, page = '01' }: { active?: string; page?: stri
             {n.label}
           </NavLink>
         ))}
-      </div>
-      <div className="dh-meta">CH · {page} / 10 &nbsp;·&nbsp; TouchDesigner</div>
-    </div>
+      </nav>
+      <div className="dh-meta" aria-label={`第 ${page} 章 · 共 10 章`}>CH · {page} / 10 &nbsp;·&nbsp; TouchDesigner</div>
+    </header>
   );
 }
 
@@ -124,7 +133,7 @@ export function DhSideMark({
   position = 'left',
   top = 120,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   position?: 'left' | 'right';
   top?: number;
 }) {
@@ -137,18 +146,18 @@ export function DhSideMark({
 
 /* —— 角章 —— */
 export function DhSeal({ ch = '鼓', style }: { ch?: string; style?: CSSProperties }) {
-  return <div className="dh-seal" style={style}>{ch}</div>;
+  return <div className="dh-seal" style={style} aria-hidden="true">{ch}</div>;
 }
 
 /* —— 角点装饰 —— */
 export function DhCorners() {
   return (
-    <>
+    <div aria-hidden="true">
       <div className="dh-corner tl" />
       <div className="dh-corner tr" />
       <div className="dh-corner bl" />
       <div className="dh-corner br" />
-    </>
+    </div>
   );
 }
 
@@ -189,9 +198,11 @@ export function DhFigurine({
 }) {
   return (
     <div style={{ position: 'relative', width, height }}>
-      {showHalo && <div className="dh-halo" style={{ inset: -30 }} />}
+      {showHalo && <div className="dh-halo" style={{ inset: -30 }} aria-hidden="true" />}
       <div
         className="dh-figurine"
+        role="img"
+        aria-label={`${label} · ${code}`}
         style={{
           width,
           height,
@@ -200,8 +211,8 @@ export function DhFigurine({
             : 'inset 0 -30px 50px rgba(201,169,97,.06)',
         }}
       >
-        <span className="--cn">{label}</span>
-        <span className="--label" style={{ alignSelf: 'flex-start' }}>{code}</span>
+        <span className="--cn" aria-hidden="true">{label}</span>
+        <span className="--label" style={{ alignSelf: 'flex-start' }} aria-hidden="true">{code}</span>
       </div>
     </div>
   );
@@ -221,6 +232,7 @@ export function DhRipples({
 }) {
   return (
     <div
+      aria-hidden="true"
       style={{
         position: 'absolute',
         left: x,
@@ -246,16 +258,17 @@ export function DhRipples({
 
 /* —— 横向汉代回纹条 —— */
 export function DhMeander({ width = 320 }: { width?: number }) {
-  return <div className="dh-meander" style={{ width }} />;
+  return <div className="dh-meander" style={{ width }} aria-hidden="true" />;
 }
 
 /* —— 中文数字（一 ~ 二十） —— */
-const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-export function cn(n: number) {
+const CN_NUM = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'] as const;
+export function cn(n: number): string {
+  if (n < 0) return String(n);
   if (n <= 10) return CN_NUM[n];
   if (n < 20) return '十' + CN_NUM[n - 10];
   return String(n);
 }
 
-/* —— Fragment 导出辅助：在 JSX 直接使用 <F> —— */
+/* —— Fragment 导出辅助 —— */
 export const F = Fragment;

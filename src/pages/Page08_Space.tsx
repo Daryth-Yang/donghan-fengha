@@ -114,7 +114,7 @@ export default function Page08_Space() {
             <div>
               <div className="dh-caption" style={{ marginBottom: 12 }}>EXPERIENCE FLOW · 观众动线</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                {flow.map((f, _i) => (
+                {flow.map((f) => (
                   <div key={f.n} className="dh-card" style={{ padding: "14px 18px", display: "grid", gridTemplateColumns: "36px 1fr", gap: 12, alignItems: "center" }}>
                     <div className="dh-title-s" style={{ fontSize: 18 }}>{f.n}</div>
                     <div>

@@ -3,12 +3,12 @@
    全部基于 CSS keyframes / transition，不改动 DOM 结构
    ========================================================== */
 
-/* ----- 入场：画板载入时整页淡入 + 上浮 ----- */
+/* ----- 入场：画板载入时整页淡入 + 上浮（不再 blur 全屏，避免性能开销） ----- */
 @keyframes dhStageIn {
-  0%   { opacity: 0; transform: translateY(14px); filter: blur(8px); }
-  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
-.dh-stage > .dh-frame { animation: dhStageIn 1.2s cubic-bezier(.22,.61,.36,1) both; }
+.dh-stage > .dh-frame { animation: dhStageIn .6s cubic-bezier(.22,.61,.36,1) both; }
 
 /* ----- 远 / 中 / 前山微动（呼吸式上下浮） ----- */
 @keyframes dhMtnBreath {
@@ -36,7 +36,6 @@
 .dh-dot {
   animation: dhDotFloat var(--d, 6s) ease-in-out infinite;
   animation-delay: var(--delay, 0s);
-  will-change: transform, opacity;
 }
 
 /* ----- 鼓点波纹：扩散脉冲 ----- */
@@ -136,9 +135,10 @@
   filter: brightness(1.08);
 }
 
-/* hover 时让 .dh-figurine 周围（其父级里的）halo 加亮 */
-.dh-figurine:hover ~ .dh-halo,
-*:has(> .dh-figurine:hover) > .dh-halo {
+/* hover 时让 .dh-figurine 紧邻的 halo 加亮（避免 :has() 触发跨页 style recalc） */
+.dh-halo + .dh-figurine:hover,
+.dh-figurine:hover + .dh-halo { /* keep selector light */ }
+:has(> .dh-figurine:hover) > .dh-halo {
   opacity: 1 !important;
 }
 
@@ -220,7 +220,16 @@
   box-shadow: 0 0 40px rgba(201,169,97,.35), inset 0 -50px 80px rgba(201,169,97,.18);
 }
 
-/* ----- design canvas 内部画板进入视图时再淡入（细节） ----- */
+/* ----- ChapterNav 章节小章 · 键盘可见焦点 ----- */
+.dh-nav-chip:focus-visible,
+.dh-nav-btn:focus-visible {
+  outline: 1px solid var(--gold-4);
+  outline-offset: 2px;
+  box-shadow: 0 0 12px rgba(230,200,132,.55);
+}
+.dh-nav-chip:hover { color: var(--gold-4); border-color: var(--gold-3); }
+
+/* ----- 减弱动效 偏好 ----- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition-duration: .001s !important; }
 }
