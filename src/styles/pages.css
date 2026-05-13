@@ -119,23 +119,25 @@
     radial-gradient(900px 320px at 18% 28%, rgba(154,122,62,.10), transparent 70%);
   pointer-events: none;
 }
+/* 远山贴视口底部当大地，不再悬浮在中段与时间轴交叉 */
 .dh-p02__mountain-back {
-  top: clamp(320px, 54vh, 560px) !important;
-  bottom: auto !important;
-  height: clamp(120px, 20vh, 200px) !important;
-  opacity: .25 !important;
+  top: auto !important;
+  bottom: clamp(40px, 8vh, 110px) !important;
+  height: clamp(80px, 13vh, 160px) !important;
+  opacity: .20 !important;
 }
 .dh-p02__mountain-mid {
-  top: clamp(360px, 60vh, 620px) !important;
-  bottom: auto !important;
-  height: clamp(140px, 22vh, 220px) !important;
-  opacity: .35 !important;
+  top: auto !important;
+  bottom: 0 !important;
+  height: clamp(80px, 12vh, 150px) !important;
+  opacity: .32 !important;
 }
 
 .dh-p02__body {
   position: absolute;
   top: clamp(140px, 22vh, 220px);
-  bottom: clamp(36px, 5vh, 72px);
+  /* 给底部山色区域留出空间，避免时间轴撞上远山 */
+  bottom: clamp(140px, 18vh, 220px);
   left: clamp(28px, 4vw, 72px);
   right: clamp(28px, 4vw, 72px);
   display: grid;
