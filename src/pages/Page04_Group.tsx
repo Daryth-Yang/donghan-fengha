@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhSection, DhRipples, DhFigurine, DhCorners, cn } from '../components/atmosphere';
+import { DhMist, DhParticles, DhSection, DhRipples, DhFigurine, DhCorners, cn } from '../components/atmosphere';
 
 export default function Page04_Group() {
   const figures = [
@@ -12,7 +12,6 @@ export default function Page04_Group() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="文物群像" page="04" />
         <DhMist />
         <DhParticles count={70} seed={17} opacityRange={[.2, .55]} />
 

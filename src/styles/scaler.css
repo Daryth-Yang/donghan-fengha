@@ -1,65 +1,24 @@
 /* ==========================================================
-   scaler.css —— 1440×900 画板的视口适配
-   通过 ResizeObserver 在 Stage.tsx 中按 viewport 实时计算 --dh-scale
-   - 内容按设计稿 1:1 (1440×900) 渲染，再统一缩放
-   - 缩放剩余区域不留纯黑边：扩展水墨气氛 + 卷轴金边
+   scaler.css —— 1440×900 画板的视口适配 (cover 模式)
    ========================================================== */
 
 .dh-scaler {
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-
-  /* —— 扩展气氛：宣纸底 + 暗金辉光 —— */
-  background:
-    radial-gradient(900px 520px at 18% 12%, rgba(154, 122, 62, .10), transparent 70%),
-    radial-gradient(900px 520px at 82% 88%, rgba(201, 169, 97, .08), transparent 70%),
-    radial-gradient(1400px 700px at 50% 50%, rgba(20, 16, 24, 0), rgba(5, 4, 7, .85) 90%),
-    #050407;
+  background: #050407;
 }
 
-/* 极远山水剪影 —— 让上下留白也成为风景
-   （宣纸纤维噪点交由 .dh-stage::after 提供，避免双层 blend-mode 合成开销） */
-.dh-scaler::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 240px;
-  pointer-events: none;
-  z-index: 0;
-  background: linear-gradient(180deg, transparent 0%, rgba(154, 122, 62, .08) 60%, rgba(201, 169, 97, .15) 100%);
-  clip-path: polygon(
-    0% 100%, 0% 78%, 6% 65%, 14% 80%, 22% 55%, 30% 78%, 38% 60%, 47% 75%,
-    55% 50%, 63% 72%, 72% 55%, 80% 78%, 88% 65%, 96% 80%, 100% 70%, 100% 100%
-  );
-  opacity: .45;
-  filter: blur(.5px);
-}
-
-/* —— 被缩放的画板本体 —— */
 .dh-scaler__inner {
-  width: 1440px;
-  height: 900px;
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   transform-origin: center center;
-  transform: scale(var(--dh-scale, 1));
+  /* width / height / transform 由 Stage.tsx 通过 inline style 控制 */
   flex-shrink: 0;
-  z-index: 1;
-
-  /* 暗金描边：当出现 letterbox 时形成一种 卷轴边 的视觉提示 */
-  box-shadow:
-    0 0 0 1px rgba(154, 122, 62, .35),
-    0 0 0 2px rgba(7, 6, 10, .9),
-    0 0 0 3px rgba(154, 122, 62, .18),
-    0 30px 80px rgba(0, 0, 0, .55),
-    0 0 120px rgba(201, 169, 97, .08);
 }
 
-/* 路由切换淡入：让位给 .dh-stage > .dh-frame 的 dhStageIn，
-   外层只做轻量 opacity 过渡，避免 blur 全屏 + 双层动画叠加 */
+/* 路由切换淡入：让位给内部 dhStageIn，外层做最轻 opacity */
 @keyframes dhRouteIn {
   0%   { opacity: 0; }
   100% { opacity: 1; }
@@ -67,14 +26,4 @@
 
 .dh-route-enter {
   animation: dhRouteIn .4s ease-out both;
-}
-
-/* 极窄屏（移动端 / 平板竖屏）兜底：允许垂直滚动而非过度缩小 */
-@media (max-aspect-ratio: 4 / 5) {
-  .dh-scaler {
-    position: absolute;
-    overflow: auto;
-    align-items: flex-start;
-    padding: 8vw 4vw;
-  }
 }

@@ -1,6 +1,8 @@
 /* ===========================================================
    Stage.tsx — 1440×900 画板的视口适配容器
-   通过 ResizeObserver 实时计算 scale，保持原始设计比例
+   策略：cover 模式（max scale）—— 画板铺满整个浏览器窗口
+   - 必要时裁剪掉极少量边缘装饰（DhCorners / 侧边竖排标）
+   - 顶部 64px 的内部导航留空，由视口级 GlobalTopBar 覆盖
    =========================================================== */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -18,7 +20,8 @@ export default function Stage({ children }: { children: ReactNode }) {
     if (!el) return;
     const compute = () => {
       const { clientWidth: w, clientHeight: h } = el;
-      const s = Math.min(w / DESIGN_W, h / DESIGN_H);
+      // cover：取较大者，让设计铺满整个视口
+      const s = Math.max(w / DESIGN_W, h / DESIGN_H);
       setScale(s > 0 ? s : 1);
     };
     compute();
@@ -32,7 +35,12 @@ export default function Stage({ children }: { children: ReactNode }) {
       <main
         className="dh-scaler__inner dh-route-enter"
         key={pathname}
-        style={{ ['--dh-scale' as string]: scale } as CSSProperties}
+        style={{
+          width: DESIGN_W,
+          height: DESIGN_H,
+          transform: `translate(-50%, -50%) scale(${scale})`,
+          ['--dh-scale' as string]: scale,
+        } as CSSProperties}
       >
         {children}
       </main>

@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
+import { DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
 
 export default function Page09_Sound() {
   const states = [
@@ -11,7 +11,6 @@ export default function Page09_Sound() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="互动体验" page="09" />
         <DhMist />
         <DhParticles count={70} seed={47} opacityRange={[.2, .65]} />
 

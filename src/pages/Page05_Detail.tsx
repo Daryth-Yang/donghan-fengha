@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
+import { DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
 
 export default function Page05_Detail() {
   const fields = [
@@ -14,7 +14,6 @@ export default function Page05_Detail() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="文物群像" page="05" />
         <DhMist />
         <DhParticles count={45} seed={23} opacityRange={[.15, .5]} />
 

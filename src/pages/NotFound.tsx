@@ -3,14 +3,13 @@
    保留水墨气氛，明确告知用户而非默默回到首章
    =========================================================== */
 import { Link, useLocation } from 'react-router-dom';
-import { DhTopBar, DhMist, DhParticles, DhCorners, DhMeander } from '../components/atmosphere';
+import { DhMist, DhParticles, DhCorners, DhMeander } from '../components/atmosphere';
 
 export default function NotFound() {
   const { pathname } = useLocation();
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="首页" page="00" />
         <DhMist />
         <DhParticles count={70} seed={101} opacityRange={[0.18, 0.55]} />
 

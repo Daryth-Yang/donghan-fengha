@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Stage from './layout/Stage';
 import ChapterNav, { CHAPTERS } from './layout/ChapterNav';
+import GlobalTopBar from './layout/GlobalTopBar';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Page01_Hero        = lazy(() => import('./pages/Page01_Hero'));
@@ -55,6 +56,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <KeyboardNav />
+      <GlobalTopBar />
       <Stage>
         <ErrorBoundary>
           <Suspense fallback={<RouteFallback />}>

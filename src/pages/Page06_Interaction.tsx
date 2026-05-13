@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
+import { DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
 
 export default function Page06_Interaction() {
   const steps = [
@@ -20,7 +20,6 @@ export default function Page06_Interaction() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="互动体验" page="06" />
         <DhMist />
 
         <div style={{ position: "absolute", top: 110, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
