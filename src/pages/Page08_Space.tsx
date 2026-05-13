@@ -15,18 +15,18 @@ export default function Page08_Space() {
         <DhMist />
         <DhParticles count={40} seed={43} opacityRange={[.15, .5]} />
 
-        <div style={{ position: "absolute", top: 110, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <div className="dh-p08__header">
           <DhSection num="捌" label="EXHIBITION · 毕业展现场" title="观众如何进入文物现场" />
           <div className="dh-caption">PLAN · TOP-DOWN VIEW</div>
         </div>
 
-        <div style={{ position: "absolute", top: 200, left: 56, right: 56, bottom: 70, display: "grid", gridTemplateColumns: "65% 1fr", gap: 36 }}>
+        <div className="dh-p08__body">
 
           {/* 左：俯视空间图 */}
-          <div style={{ position: "relative", border: "1px solid rgba(154,122,62,.35)", background: "linear-gradient(180deg, rgba(15,12,18,.6), rgba(7,6,10,.95))" }}>
+          <div className="dh-p08__plan">
 
             {/* 网格 */}
-            <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(rgba(154,122,62,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(154,122,62,.06) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+            <div className="dh-p08__grid" />
 
             {/* 大屏 / 投影 */}
             <div style={{ position: "absolute", left: "10%", top: "10%", width: "80%", height: "18%", border: "1px solid var(--gold-3)", background: "linear-gradient(180deg, rgba(201,169,97,.18), rgba(40,30,18,.4))" }}>
@@ -110,25 +110,25 @@ export default function Page08_Space() {
           </div>
 
           {/* 右：体验动线 + 硬件 */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+          <div className="dh-p08__right">
             <div>
               <div className="dh-caption" style={{ marginBottom: 12 }}>EXPERIENCE FLOW · 观众动线</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <div className="dh-p08__flow-list">
                 {flow.map((f) => (
-                  <div key={f.n} className="dh-card" style={{ padding: "14px 18px", display: "grid", gridTemplateColumns: "36px 1fr", gap: 12, alignItems: "center" }}>
-                    <div className="dh-title-s" style={{ fontSize: 18 }}>{f.n}</div>
+                  <div key={f.n} className="dh-card dh-p08__flow-card">
+                    <div className="dh-title-s">{f.n}</div>
                     <div>
-                      <div className="dh-title-s" style={{ fontSize: 14 }}>{f.t}</div>
-                      <div className="dh-body" style={{ fontSize: 11.5, color: "var(--paper-3)", marginTop: 2 }}>{f.d}</div>
+                      <div className="dh-title-s">{f.t}</div>
+                      <div className="dh-body" style={{ color: "var(--paper-3)", marginTop: 2 }}>{f.d}</div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="dh-card" style={{ padding: 18 }}>
+            <div className="dh-card dh-p08__hw-card">
               <div className="dh-caption" style={{ marginBottom: 10 }}>HARDWARE · 硬件配置</div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className="dh-p08__hw-chips">
                 <span className="dh-chip-mono">摄像头</span>
                 <span className="dh-chip-mono">电脑</span>
                 <span className="dh-chip-mono">投影 / 大屏</span>

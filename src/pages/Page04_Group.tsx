@@ -16,13 +16,13 @@ export default function Page04_Group() {
         <DhMist />
         <DhParticles count={70} seed={17} opacityRange={[.2, .55]} />
 
-        <div style={{ position: "absolute", top: 110, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <div className="dh-p04__header">
           <DhSection num="肆" label="FIVE FIGURES · 半圆舞台" title="五个俑 · 五种民间表情" />
           <div className="dh-caption">HOVER · 金粒光环 + 鼓点波纹</div>
         </div>
 
         {/* 半圆舞台 */}
-        <div style={{ position: "absolute", left: 56, right: 56, top: 220, height: 530 }}>
+        <div className="dh-p04__stage">
           {/* 舞台背景：陶土色弧形 */}
           <svg viewBox="0 0 1328 530" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} preserveAspectRatio="none">
             <defs>
@@ -43,20 +43,19 @@ export default function Page04_Group() {
               const total = figures.length;
               const ratio = total > 1 ? i / (total - 1) : 0.5;
               const xPct = 12 + ratio * 76;
-              const arcY = 240 - Math.sin(ratio * Math.PI) * 90;
+              // 弧线纵向位置：以舞台高度比例表达（避免硬像素）
+              const yPct = 45 - Math.sin(ratio * Math.PI) * 17;
               return (
-                <div key={i} style={{
-                  position: "absolute",
-                  left: `${xPct}%`, top: arcY,
-                  transform: "translateX(-50%)",
-                  textAlign: "center"
+                <div key={i} className="dh-p04__figure" style={{
+                  left: `${xPct}%`,
+                  top: `${yPct}%`,
                 }}>
                   {f.featured && <DhRipples count={3} size={260} x="50%" y={f.h / 2 + 0} />}
                   <div className="dh-halo" style={{ width: 180, height: 180, left: "50%", top: f.h / 2 - 90, transform: "translateX(-50%)", opacity: f.featured ? .9 : .25 }} />
                   <DhFigurine width={f.featured ? 130 : 100} height={f.h} label={f.cn} code={f.code} featured={f.featured} />
                   <div className="dh-caption" style={{ marginTop: 14, color: "var(--gold-2)" }}>{`零·${cn(i + 1)}`}</div>
-                  <div className="dh-title-s" style={{ fontSize: 15, marginTop: 6 }}>{f.cn}</div>
-                  <div className="dh-body" style={{ fontSize: 11, color: "var(--paper-3)", marginTop: 4, letterSpacing: ".22em" }}>{f.kw}</div>
+                  <div className="dh-title-s" style={{ marginTop: 6 }}>{f.cn}</div>
+                  <div className="dh-body" style={{ color: "var(--paper-3)", marginTop: 4, letterSpacing: ".22em" }}>{f.kw}</div>
                 </div>
               );
             })}
@@ -64,11 +63,11 @@ export default function Page04_Group() {
         </div>
 
         {/* 底部说明 —— 当前选中（中间这个） */}
-        <div style={{ position: "absolute", bottom: 24, left: 56, right: 56, display: "flex", alignItems: "center", gap: 24 }}>
-          <div className="dh-seal" style={{ width: 48, height: 48, fontSize: 22 }}>鼓</div>
-          <div style={{ flex: 1 }}>
+        <div className="dh-p04__footer">
+          <div className="dh-seal dh-p04__seal">鼓</div>
+          <div className="dh-p04__focus-text">
             <div className="dh-caption" style={{ marginBottom: 4 }}>FOCUS · FIG-01 · CHIEF NARRATOR</div>
-            <div className="dh-quote" style={{ fontSize: 18, lineHeight: 1.6 }}>{figures[2].one}</div>
+            <div className="dh-quote" style={{ lineHeight: 1.6 }}>{figures[2].one}</div>
           </div>
           <button className="dh-btn-ghost">查看詳情 →</button>
         </div>

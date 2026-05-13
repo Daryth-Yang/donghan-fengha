@@ -10,7 +10,7 @@ export default function Page10_Ending() {
         <DhParticles count={90} seed={53} opacityRange={[.15, .7]} />
 
         {/* 五个陶俑剪影逐渐消散，只留下中间击鼓的小鼓 */}
-        <div style={{ position: "absolute", left: 0, right: 0, top: 200, height: 280, display: "flex", justifyContent: "center", alignItems: "flex-end", gap: 40 }}>
+        <div className="dh-p10__figs">
           {[
             { o: .12, h: 140 },
             { o: .25, h: 170 },
@@ -36,32 +36,32 @@ export default function Page10_Ending() {
         </div>
 
         {/* 标题 */}
-        <div style={{ position: "absolute", left: 0, right: 0, top: 510, textAlign: "center" }}>
+        <div className="dh-p10__title-wrap">
           <div className="dh-eyebrow" style={{ marginBottom: 16 }}>FINALE · 第 拾 章</div>
-          <h1 className="dh-title-l" style={{ margin: 0, fontSize: 68 }}>
+          <h1 className="dh-title-l" style={{ margin: 0 }}>
             笑声归尘 <span style={{ color: "var(--gold-2)", margin: "0 14px" }}>·</span> 鼓点仍在
           </h1>
-          <div style={{ display: "flex", justifyContent: "center", margin: "26px auto 0" }}>
+          <div className="dh-p10__meander-wrap">
             <DhMeander width={320} />
           </div>
         </div>
 
         {/* 三栏诗文 */}
-        <div style={{ position: "absolute", top: 660, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 80 }}>
+        <div className="dh-p10__poem">
           <p className="dh-body" style={{ margin: 0, textAlign: "center", lineHeight: 2.1, color: "var(--paper-2)" }}>
             他们没有留下姓名。<br/>
             留下的是一个抬起的鼓槌，<br/>
             一个夸张的笑容，<br/>
             一个即将开始的动作。
           </p>
-          <div className="dh-rule-v" style={{ height: 120 }} />
+          <div className="dh-rule-v dh-p10__poem-rule" />
           <p className="dh-body" style={{ margin: 0, textAlign: "center", lineHeight: 2.1, color: "var(--paper-2)" }}>
             在东汉末年的动荡中，<br/>
             历史记住了战争与英雄；<br/>
             而陶俑记住了，<br/>
             民间的笑声。
           </p>
-          <div className="dh-rule-v" style={{ height: 120 }} />
+          <div className="dh-rule-v dh-p10__poem-rule" />
           <p className="dh-body" style={{ margin: 0, textAlign: "center", lineHeight: 2.1, color: "var(--gold-3)" }}>
             当观众的手势再次唤醒它们，<br/>
             被尘土覆盖的不是文物，<br/>
@@ -71,13 +71,13 @@ export default function Page10_Ending() {
         </div>
 
         {/* 三按钮 */}
-        <div style={{ position: "absolute", bottom: 36, left: 0, right: 0, display: "flex", justifyContent: "center", gap: 16 }}>
+        <div className="dh-p10__cta">
           <button className="dh-btn">重新听鼓 ⟲</button>
           <button className="dh-btn-ghost">查看文物档案</button>
           <button className="dh-btn-ghost">进入互动说明</button>
         </div>
 
-        <div className="dh-side-vert" style={{ right: 32, top: 110 }}>笑声归尘 鼓点仍在</div>
+        <div className="dh-side-vert dh-p10__sidemark">笑声归尘 鼓点仍在</div>
 
         <DhCorners />
       </div>

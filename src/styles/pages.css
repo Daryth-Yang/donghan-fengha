@@ -1,0 +1,1010 @@
+/* ==========================================================
+   pages.css —— 各章节响应式版式
+   - .dh-stage 是 100vw × 100vh 的视口
+   - 内容用 flex / grid + clamp + vw/vh 而非绝对像素
+   ========================================================== */
+
+/* —— 通用工具 —— */
+.dh-edge-pad {
+  padding-inline: clamp(28px, 4vw, 80px);
+}
+.dh-content-area {
+  position: absolute;
+  inset: 64px 0 clamp(40px, 6vh, 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================================================
+   章 01 · 启动页 Hero
+   =========================================================== */
+.dh-p01__sidemark {
+  position: absolute;
+  right: clamp(16px, 2vw, 32px);
+  top: clamp(88px, 13vh, 160px);
+  writing-mode: vertical-rl;
+}
+
+.dh-p01__bg-figurine {
+  position: absolute;
+  left: 50%;
+  top: clamp(80px, 16vh, 240px);
+  transform: translateX(-50%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.dh-p01__content {
+  position: absolute;
+  inset: 64px 0 clamp(60px, 9vh, 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: clamp(40px, 8vw, 120px);
+  gap: clamp(14px, 1.8vh, 28px);
+}
+.dh-p01__story {
+  max-width: min(720px, 80vw);
+}
+.dh-p01__cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(12px, 1.6vw, 22px);
+  margin-top: clamp(20px, 3vh, 56px);
+}
+
+.dh-p01__scale {
+  position: absolute;
+  bottom: clamp(18px, 2.6vh, 36px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.dh-p01__ticks {
+  display: flex;
+  gap: 6px;
+}
+
+/* ===========================================================
+   通用 · 章节标题占位 (DhSection)
+   原 px 坐标 → vw/vh + clamp
+   =========================================================== */
+.dh-chap-header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* 章节卷标侧边竖排 (DhSideMark 默认) */
+.dh-stage .dh-side-vert {
+  right: clamp(16px, 2vw, 32px);
+}
+
+/* ===========================================================
+   通用 · 底部一行说明 / 图例
+   =========================================================== */
+.dh-chap-footnote {
+  position: absolute;
+  bottom: clamp(18px, 2.6vh, 36px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ===========================================================
+   章 02 · 历史背景 · 王朝将倾
+   =========================================================== */
+.dh-p02__bg-glow {
+  position: absolute;
+  inset: 64px 0 0 0;
+  background:
+    radial-gradient(700px 260px at 78% 38%, rgba(139,58,42,.10), transparent 70%),
+    radial-gradient(900px 320px at 18% 28%, rgba(154,122,62,.10), transparent 70%);
+  pointer-events: none;
+}
+.dh-p02__mountain-back {
+  top: clamp(320px, 54vh, 560px) !important;
+  bottom: auto !important;
+  height: clamp(120px, 20vh, 200px) !important;
+  opacity: .25 !important;
+}
+.dh-p02__mountain-mid {
+  top: clamp(360px, 60vh, 620px) !important;
+  bottom: auto !important;
+  height: clamp(140px, 22vh, 220px) !important;
+  opacity: .35 !important;
+}
+
+.dh-p02__body {
+  position: absolute;
+  top: clamp(140px, 22vh, 220px);
+  bottom: clamp(36px, 5vh, 72px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: grid;
+  grid-template-columns: minmax(220px, 26vw) 1fr;
+  gap: clamp(32px, 5vw, 88px);
+  overflow: hidden;
+}
+
+.dh-p02__timeline {
+  position: relative;
+  padding-left: 18px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.dh-p02__timeline-rule {
+  position: absolute;
+  left: 6px;
+  top: 4px;
+  bottom: 4px;
+}
+.dh-p02__timeline-cap {
+  margin-bottom: clamp(12px, 1.8vh, 24px);
+}
+.dh-p02__node {
+  position: relative;
+  margin-bottom: clamp(20px, 3vh, 40px);
+}
+.dh-p02__node-dot {
+  position: absolute;
+  left: -18px;
+  top: 6px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-3);
+}
+.dh-p02__node-year {
+  margin-bottom: 4px;
+}
+.dh-p02__node-topic {
+  margin-bottom: 6px;
+  color: var(--gold-2);
+}
+.dh-p02__node-desc {
+  line-height: 1.85;
+  color: var(--paper-3);
+}
+
+.dh-p02__narrative {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.dh-p02__narr-cap {
+  margin-bottom: clamp(10px, 1.6vh, 22px);
+}
+.dh-p02__narr-title {
+  margin: 0 0 clamp(18px, 2.8vh, 36px);
+}
+.dh-p02__narr-body {
+  margin-top: clamp(18px, 3vh, 36px);
+  max-width: min(640px, 60vw);
+}
+.dh-p02__emphasis {
+  margin-top: clamp(22px, 3.5vh, 44px);
+  padding: clamp(20px, 2.6vh, 34px) clamp(22px, 2.8vw, 38px);
+  max-width: min(680px, 64vw);
+  position: relative;
+}
+.dh-p02__emphasis-seal {
+  position: absolute;
+  left: clamp(14px, 1.4vw, 22px);
+  top: clamp(14px, 1.6vh, 22px);
+}
+.dh-p02__emphasis-inner {
+  padding-left: clamp(64px, 6vw, 96px);
+}
+.dh-p02__emphasis-cap {
+  margin-bottom: 10px;
+}
+.dh-p02__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 1vw, 14px);
+  margin-top: clamp(18px, 2.8vh, 36px);
+}
+.dh-p02__sidemark {
+  position: absolute;
+  right: clamp(16px, 2vw, 32px);
+  top: clamp(96px, 14vh, 170px);
+}
+
+/* ===========================================================
+   章 03 · 叙事地图 · 山水长卷
+   =========================================================== */
+.dh-p03__scroll {
+  position: absolute;
+  top: clamp(140px, 22vh, 220px);
+  bottom: clamp(64px, 8.5vh, 110px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  border: 1px solid rgba(154,122,62,.25);
+  min-height: clamp(280px, 52vh, 520px);
+}
+.dh-p03__scroll-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(20,16,12,.4), rgba(7,6,10,.95)),
+    repeating-linear-gradient(180deg, transparent 0 38px, rgba(154,122,62,.04) 38px 39px);
+}
+.dh-p03__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.dh-p03__node {
+  position: absolute;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.dh-p03__node-halo {
+  width: 60px;
+  height: 60px;
+  left: -16px;
+  top: -16px;
+}
+.dh-p03__node-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold-4);
+  margin: 0 auto;
+  box-shadow: 0 0 14px rgba(230,200,132,.7);
+  border: 1px solid var(--gold-2);
+}
+.dh-p03__node-stem {
+  width: 1px;
+  height: 26px;
+  background: rgba(201,169,97,.35);
+  margin: 4px auto 0;
+}
+.dh-p03__node-idx {
+  color: var(--gold-2);
+  margin-top: 8px;
+}
+.dh-p03__node-label {
+  margin-top: 4px;
+}
+.dh-p03__node-sub {
+  color: var(--paper-3);
+  margin-top: 4px;
+  letter-spacing: .18em;
+}
+.dh-p03__node-desc {
+  margin-top: 6px;
+}
+
+.dh-p03__edge-tag {
+  position: absolute;
+  top: clamp(18px, 2.4vh, 36px);
+  color: var(--gold-3);
+}
+.dh-p03__edge-tag.--left  { left: clamp(8px, 1vw, 18px); }
+.dh-p03__edge-tag.--right { right: clamp(8px, 1vw, 18px); }
+
+.dh-p03__legend-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(12px, 2vw, 28px);
+  align-items: center;
+}
+
+/* ===========================================================
+   章 04 · 五俑群像 · 半圆舞台
+   =========================================================== */
+.dh-p04__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dh-p04__stage {
+  position: absolute;
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  top: clamp(150px, 24vh, 240px);
+  height: clamp(360px, 60vh, 560px);
+}
+.dh-p04__figure {
+  position: absolute;
+  transform: translateX(-50%);
+  text-align: center;
+}
+.dh-p04__footer {
+  position: absolute;
+  bottom: clamp(18px, 2.6vh, 40px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.8vw, 28px);
+  flex-wrap: wrap;
+}
+.dh-p04__seal {
+  width: clamp(40px, 4vw, 56px);
+  height: clamp(40px, 4vw, 56px);
+  font-size: clamp(18px, 1.6vw, 24px);
+  flex-shrink: 0;
+}
+.dh-p04__focus-text {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+/* ===========================================================
+   章 05 · 文物详情 · 双栏档案 + 大图
+   =========================================================== */
+.dh-p05__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dh-p05__main {
+  position: absolute;
+  top: clamp(150px, 24vh, 240px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(110px, 16vh, 170px);
+  display: grid;
+  grid-template-columns: minmax(0, 35%) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 56px);
+}
+.dh-p05__card {
+  padding: clamp(20px, 2.2vw, 36px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.dh-p05__fields {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.4vh, 18px);
+  flex: 1;
+  min-height: 0;
+}
+.dh-p05__field-row {
+  display: grid;
+  grid-template-columns: clamp(60px, 6vw, 96px) minmax(0, 1fr);
+  align-items: baseline;
+  gap: clamp(10px, 1vw, 18px);
+}
+.dh-p05__card-footer {
+  margin-top: clamp(14px, 2vh, 28px);
+}
+.dh-p05__card-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: clamp(8px, 1.2vh, 16px);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.dh-p05__viewer-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.6vh, 22px);
+  min-height: 0;
+}
+.dh-p05__viewer {
+  flex: 1;
+  position: relative;
+  border: 1px solid rgba(154, 122, 62, .4);
+  background:
+    radial-gradient(40% 55% at 50% 60%, rgba(201, 169, 97, .18), transparent 70%),
+    linear-gradient(180deg, rgba(20, 16, 12, .5), rgba(7, 6, 10, .95));
+  min-height: clamp(280px, 40vh, 520px);
+}
+.dh-p05__viewer-figure {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(16px, 3vh, 40px);
+  transform: translateX(-50%);
+}
+.dh-p05__viewer-toolbar {
+  position: absolute;
+  top: clamp(10px, 1.4vh, 18px);
+  left: clamp(10px, 1.2vw, 20px);
+  right: clamp(10px, 1.2vw, 20px);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.dh-p05__viewer-ruler {
+  position: absolute;
+  bottom: clamp(8px, 1.2vh, 16px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.dh-p05__actions {
+  display: flex;
+  gap: clamp(8px, 1vw, 16px);
+  flex-wrap: wrap;
+}
+.dh-p05__actions > button {
+  flex: 1 1 0;
+  justify-content: center;
+  min-width: 0;
+}
+.dh-p05__footer {
+  position: absolute;
+  bottom: clamp(18px, 2.4vh, 36px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+}
+.dh-p05__footer-rule {
+  margin-bottom: clamp(8px, 1.4vh, 18px);
+}
+.dh-p05__footer-text {
+  margin: 0;
+  font-style: normal;
+  max-width: min(1300px, 96vw);
+}
+
+/* ===========================================================
+   章 06 · 互动体验 INTERACTION
+   =========================================================== */
+.dh-p06__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dh-p06__main {
+  position: absolute;
+  top: clamp(150px, 22vh, 230px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(70px, 11vh, 130px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 56px);
+  min-height: 0;
+}
+@media (max-width: 900px) {
+  .dh-p06__main {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+}
+
+.dh-p06__col-title {
+  margin-bottom: clamp(10px, 1.4vh, 18px);
+}
+
+.dh-p06__flow {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 16px);
+}
+.dh-p06__step {
+  padding: clamp(10px, 1.6vh, 20px) clamp(14px, 1.8vw, 24px);
+  display: grid;
+  grid-template-columns: clamp(34px, 4vw, 52px) clamp(80px, 9vw, 120px) 1fr;
+  gap: clamp(10px, 1.4vw, 22px);
+  align-items: center;
+}
+.dh-p06__step-num { color: var(--gold-4); }
+.dh-p06__step-desc {
+  color: var(--paper-2);
+  line-height: 1.7;
+}
+
+.dh-p06__states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: clamp(8px, 1.2vh, 16px);
+  height: clamp(280px, 52vh, 520px);
+}
+.dh-p06__state-card {
+  position: relative;
+  border: 1px solid rgba(154,122,62,.35);
+  background: linear-gradient(180deg, rgba(15,12,18,.8), rgba(7,6,10,.95));
+  overflow: hidden;
+}
+.dh-p06__state-fig {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: clamp(10px, 1.8vh, 22px);
+}
+.dh-p06__state-fig.--ghost { opacity: .35; }
+.dh-p06__state-label {
+  position: absolute;
+  left: clamp(8px, 1vw, 16px);
+  top: clamp(8px, 1.2vh, 14px);
+}
+.dh-p06__state-eyebrow { color: var(--gold-2); }
+.dh-p06__state-title { margin-top: 4px; }
+.dh-p06__state-sub { margin-top: 2px; color: var(--paper-4); }
+.dh-p06__state-hint {
+  position: absolute;
+  left: clamp(8px, 1vw, 16px);
+  bottom: clamp(6px, 1.1vh, 12px);
+}
+
+.dh-p06__hardware {
+  margin-top: clamp(10px, 1.8vh, 22px);
+  padding: clamp(10px, 1.6vh, 20px) clamp(14px, 1.6vw, 22px);
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(8px, 1.2vw, 18px);
+  align-items: center;
+}
+.dh-p06__hardware-label { color: var(--gold-3); }
+
+.dh-p06__footer {
+  position: absolute;
+  bottom: clamp(14px, 2.4vh, 32px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ===========================================================
+   章 07 · 破碎重构 FRACTURE & RESTORE
+   =========================================================== */
+.dh-p07__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.dh-p07__stage {
+  position: absolute;
+  top: clamp(150px, 22vh, 230px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  height: clamp(320px, 54vh, 540px);
+}
+
+.dh-p07__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(360px, 55vw, 760px);
+  height: clamp(260px, 50vh, 500px);
+  background: radial-gradient(closest-side, rgba(201,169,97,.18), transparent 75%);
+  pointer-events: none;
+}
+
+.dh-p07__side {
+  position: absolute;
+  top: clamp(30px, 6vh, 80px);
+  width: clamp(160px, 22vw, 260px);
+  max-width: 25vw;
+}
+.dh-p07__side.--left { left: 0; }
+.dh-p07__side.--right { right: 0; text-align: right; }
+.dh-p07__side-title { margin-bottom: clamp(8px, 1.4vh, 16px); }
+.dh-p07__side-chips {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 16px);
+}
+.dh-p07__side.--right .dh-p07__side-chips { align-items: flex-end; }
+.dh-p07__side-note {
+  margin: clamp(12px, 1.8vh, 22px) 0 0 0;
+  color: var(--paper-3);
+}
+
+.dh-p07__central {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: clamp(260px, 28vw, 420px);
+  height: clamp(320px, 54vh, 520px);
+}
+.dh-p07__half {
+  position: absolute;
+  top: clamp(20px, 3vh, 40px);
+  width: 50%;
+  height: clamp(260px, 46vh, 440px);
+}
+.dh-p07__half.--left {
+  left: 0;
+  clip-path: inset(0 0 0 0);
+  border-right: 1px solid rgba(154,122,62,.45);
+  background:
+    repeating-linear-gradient(135deg, rgba(154,122,62,.12) 0 6px, transparent 6px 14px),
+    linear-gradient(180deg, rgba(40,30,18,.8), rgba(7,6,10,.95));
+}
+.dh-p07__half.--right { left: 50%; }
+.dh-p07__half-cn {
+  position: absolute;
+  right: 8px;
+  top: 14px;
+  writing-mode: vertical-rl;
+  color: var(--gold-3);
+  font-family: var(--sf-serif);
+  letter-spacing: .35em;
+  font-size: clamp(11px, calc(.3vw + .3vh), 14px);
+}
+.dh-p07__half-code {
+  position: absolute;
+  left: 10px;
+  bottom: 12px;
+  font-family: var(--sf-mono);
+  font-size: clamp(8px, calc(.22vw + .1vh), 10px);
+  letter-spacing: .3em;
+  color: var(--paper-4);
+}
+.dh-p07__midline {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+}
+
+.dh-p07__flow {
+  position: absolute;
+  bottom: clamp(54px, 9vh, 110px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+}
+.dh-p07__flow-title { margin-bottom: clamp(8px, 1.4vh, 16px); }
+.dh-p07__flow-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.dh-p07__flow-step {
+  flex: 1;
+  text-align: center;
+}
+.dh-p07__flow-dot {
+  width: clamp(8px, .8vw, 14px);
+  height: clamp(8px, .8vw, 14px);
+  border-radius: 50%;
+  border: 1px solid var(--gold-3);
+  margin: 0 auto;
+}
+.dh-p07__flow-dot.--active {
+  background: var(--gold-4);
+  box-shadow: 0 0 12px rgba(230,200,132,.6);
+}
+.dh-p07__flow-label { margin-top: clamp(6px, 1.2vh, 14px); }
+.dh-p07__flow-num { margin-top: 4px; }
+.dh-p07__flow-link {
+  flex: 0.4;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-2), var(--gold-3), var(--gold-2));
+  opacity: .55;
+}
+
+.dh-p07__quote {
+  position: absolute;
+  bottom: clamp(14px, 2.4vh, 32px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  margin: 0;
+}
+
+/* ===========================================================
+   章 08 · 展陈空间 · 俯视空间图 + 动线 + 硬件
+   =========================================================== */
+.dh-p08__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dh-p08__body {
+  position: absolute;
+  top: clamp(150px, 22vh, 220px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(50px, 7vh, 90px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+  gap: clamp(18px, 2.6vw, 40px);
+}
+@media (max-width: 900px) {
+  .dh-p08__body { grid-template-columns: minmax(0, 1fr); }
+}
+.dh-p08__plan {
+  position: relative;
+  border: 1px solid rgba(154,122,62,.35);
+  background: linear-gradient(180deg, rgba(15,12,18,.6), rgba(7,6,10,.95));
+  min-height: clamp(280px, 50vh, 600px);
+}
+.dh-p08__grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(154,122,62,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154,122,62,.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.dh-p08__right {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vh, 22px);
+  min-height: 0;
+}
+.dh-p08__flow-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 1.2vh, 14px);
+}
+.dh-p08__flow-card {
+  padding: clamp(10px, 1.4vh, 16px) clamp(12px, 1.6vw, 20px);
+  display: grid;
+  grid-template-columns: clamp(28px, 3vw, 40px) minmax(0, 1fr);
+  gap: clamp(8px, 1vw, 14px);
+  align-items: center;
+}
+.dh-p08__hw-card {
+  padding: clamp(12px, 1.6vh, 20px);
+}
+.dh-p08__hw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(6px, 0.6vw, 10px);
+}
+
+/* ===========================================================
+   章 09 · 声音与鼓点 · 同心波纹 + 四态波形
+   =========================================================== */
+.dh-p09__header {
+  position: absolute;
+  top: clamp(76px, 11vh, 140px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.dh-p09__body {
+  position: absolute;
+  top: clamp(150px, 22vh, 220px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  bottom: clamp(64px, 11vh, 130px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 28vw, 420px);
+  gap: clamp(18px, 2.6vw, 44px);
+}
+@media (max-width: 880px) {
+  .dh-p09__body { grid-template-columns: minmax(0, 1fr); }
+}
+.dh-p09__stage {
+  position: relative;
+  border: 1px solid rgba(154,122,62,.3);
+  background: radial-gradient(closest-side, rgba(40,30,18,.4), rgba(7,6,10,.95));
+  min-height: clamp(280px, 50vh, 560px);
+}
+.dh-p09__ripples {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(280px, 48vh, 520px);
+  height: clamp(280px, 48vh, 520px);
+  max-width: 80%;
+  max-height: 80%;
+  aspect-ratio: 1 / 1;
+}
+.dh-p09__drum {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(48px, 7vh, 80px);
+  height: clamp(48px, 7vh, 80px);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(230,200,132,.65), rgba(154,122,62,.2) 70%);
+  border: 1px solid var(--gold-3);
+  box-shadow: 0 0 36px rgba(230,200,132,.45);
+}
+.dh-p09__drum-inner {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 1px solid var(--gold-3);
+}
+.dh-p09__states {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.4vh, 18px);
+  min-height: 0;
+}
+.dh-p09__state-card {
+  padding: clamp(12px, 1.6vh, 20px) clamp(14px, 1.6vw, 20px);
+}
+.dh-p09__state-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.dh-p09__wave {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: clamp(30px, 4.6vh, 48px);
+  margin-top: 6px;
+}
+.dh-p09__footer {
+  position: absolute;
+  bottom: clamp(18px, 2.6vh, 36px);
+  left: clamp(28px, 4vw, 72px);
+  right: clamp(28px, 4vw, 72px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.dh-p09__footer-quote {
+  margin: 0;
+  max-width: min(880px, 70vw);
+}
+
+/* ===========================================================
+   章 10 · 结尾 · 五俑消散 + 三栏诗文
+   =========================================================== */
+.dh-p10__figs {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(120px, 18vh, 220px);
+  height: clamp(180px, 30vh, 300px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(16px, 3vw, 48px);
+  padding-inline: clamp(20px, 4vw, 60px);
+  flex-wrap: nowrap;
+}
+.dh-p10__title-wrap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: clamp(360px, 54vh, 560px);
+  text-align: center;
+  padding-inline: clamp(20px, 4vw, 60px);
+}
+.dh-p10__meander-wrap {
+  display: flex;
+  justify-content: center;
+  margin: clamp(14px, 2.6vh, 30px) auto 0;
+}
+.dh-p10__poem {
+  position: absolute;
+  top: clamp(440px, 65vh, 720px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(24px, 6vw, 96px);
+  padding-inline: clamp(28px, 5vw, 80px);
+  flex-wrap: wrap;
+}
+.dh-p10__poem > p {
+  flex: 1 1 220px;
+  min-width: 180px;
+  max-width: 320px;
+}
+.dh-p10__poem-rule {
+  flex: 0 0 1px;
+  align-self: stretch;
+  min-height: clamp(80px, 12vh, 140px);
+}
+@media (max-width: 760px) {
+  .dh-p10__poem-rule { display: none; }
+}
+.dh-p10__cta {
+  position: absolute;
+  bottom: clamp(20px, 4vh, 56px);
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 1.4vw, 20px);
+  flex-wrap: wrap;
+  padding-inline: clamp(20px, 4vw, 60px);
+}
+.dh-p10__sidemark {
+  position: absolute;
+  right: clamp(16px, 2vw, 32px);
+  top: clamp(88px, 13vh, 160px);
+  writing-mode: vertical-rl;
+}
+
+/* ===========================================================
+   404 · 路径未收录
+   =========================================================== */
+.dh-p404__content {
+  position: absolute;
+  inset: 64px 0 clamp(40px, 6vh, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: clamp(28px, 6vw, 96px);
+  gap: clamp(10px, 1.4vh, 22px);
+}
+.dh-p404__meander-wrap {
+  display: flex;
+  justify-content: center;
+  margin: clamp(14px, 2.6vh, 30px) auto clamp(10px, 2vh, 22px);
+}
+.dh-p404__cta {
+  margin-top: clamp(20px, 3.4vh, 40px);
+  display: flex;
+  gap: clamp(10px, 1.4vw, 20px);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.dh-p404__hint {
+  max-width: min(640px, 80vw);
+}

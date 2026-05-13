@@ -15,34 +15,28 @@ export default function Page09_Sound() {
         <DhMist />
         <DhParticles count={70} seed={47} opacityRange={[.2, .65]} />
 
-        <div style={{ position: "absolute", top: 110, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <div className="dh-p09__header">
           <DhSection num="玖" label="SOUND · 鼓点作为叙事线索" title="鼓点 · 文物被唤醒的节奏" />
           <div className="dh-caption">AUDIO · 4 STATES</div>
         </div>
 
-        <div style={{ position: "absolute", top: 200, left: 56, right: 56, bottom: 110, display: "grid", gridTemplateColumns: "1fr 380px", gap: 40 }}>
+        <div className="dh-p09__body">
 
           {/* 左：鼓点波纹中心 */}
-          <div style={{ position: "relative", border: "1px solid rgba(154,122,62,.3)", background: "radial-gradient(closest-side, rgba(40,30,18,.4), rgba(7,6,10,.95))" }}>
+          <div className="dh-p09__stage">
 
             {/* 同心波纹 */}
-            <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 480, height: 480 }}>
+            <div className="dh-p09__ripples">
               {[...Array(8)].map((_, i) => (
                 <div key={i} className="dh-ripple" style={{
-                  inset: i * 28,
+                  inset: `${i * 5.8}%`,
                   opacity: .65 - i * .07,
                   borderColor: i < 3 ? "var(--gold-3)" : "rgba(201,169,97,.35)"
                 }} />
               ))}
               {/* 中心鼓 */}
-              <div className="dh-drum-core" style={{
-                position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)",
-                width: 72, height: 72, borderRadius: "50%",
-                background: "radial-gradient(closest-side, rgba(230,200,132,.65), rgba(154,122,62,.2) 70%)",
-                border: "1px solid var(--gold-3)",
-                boxShadow: "0 0 36px rgba(230,200,132,.45)"
-              }}>
-                <div style={{ position: "absolute", inset: 12, borderRadius: "50%", border: "1px solid var(--gold-3)" }} />
+              <div className="dh-drum-core dh-p09__drum">
+                <div className="dh-p09__drum-inner" />
               </div>
             </div>
 
@@ -66,32 +60,32 @@ export default function Page09_Sound() {
           </div>
 
           {/* 右：四种声音状态 + 波形 */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <div className="dh-p09__states">
             {states.map((s, i) => (
-              <div key={i} className="dh-card" style={{ padding: "16px 18px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
+              <div key={i} className="dh-card dh-p09__state-card">
+                <div className="dh-p09__state-head">
                   <div>
                     <div className="dh-caption" style={{ color: "var(--gold-2)" }}>{`STATE · 0${i+1} · ${s.sub}`}</div>
-                    <div className="dh-title-s" style={{ fontSize: 16, marginTop: 2 }}>{s.t}</div>
+                    <div className="dh-title-s" style={{ marginTop: 2 }}>{s.t}</div>
                   </div>
                   <div className="dh-caption">{s.bpm} BPM</div>
                 </div>
                 {/* 波形 */}
-                <div style={{ display: "flex", alignItems: "center", gap: 2, height: 42, marginTop: 6 }}>
+                <div className="dh-p09__wave">
                   {[...Array(56)].map((_, k) => {
                     const phase = (k / 56) * Math.PI * 4;
-                    const h = Math.abs(Math.sin(phase + i)) * 36 * s.intensity + 4;
-                    return <div key={k} style={{ flex: 1, height: h, background: "linear-gradient(180deg, var(--gold-4), var(--gold-2))", opacity: .5 + s.intensity * .5 }} />;
+                    const pct = (Math.abs(Math.sin(phase + i)) * s.intensity) * 90 + 10;
+                    return <div key={k} style={{ flex: 1, height: `${pct}%`, minHeight: 3, background: "linear-gradient(180deg, var(--gold-4), var(--gold-2))", opacity: .5 + s.intensity * .5 }} />;
                   })}
                 </div>
-                <div className="dh-body" style={{ fontSize: 11.5, color: "var(--paper-3)", marginTop: 8 }}>{s.desc}</div>
+                <div className="dh-body" style={{ color: "var(--paper-3)", marginTop: 8 }}>{s.desc}</div>
               </div>
             ))}
           </div>
         </div>
 
-        <div style={{ position: "absolute", bottom: 24, left: 56, right: 56, display: "flex", justifyContent: "space-between" }}>
-          <p className="dh-body" style={{ margin: 0, maxWidth: 880 }}>
+        <div className="dh-p09__footer">
+          <p className="dh-body dh-p09__footer-quote">
             「声音不是背景音乐，而是文物被唤醒的节奏。鼓点响起时，陶俑回到场上；鼓点落下时，他们回到尘土。」
           </p>
           <div className="dh-caption">SOUND · 鼓 / 风 / 陶片 / 呼吸</div>

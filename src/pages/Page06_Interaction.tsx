@@ -23,25 +23,25 @@ export default function Page06_Interaction() {
         <DhTopBar active="互动体验" page="06" />
         <DhMist />
 
-        <div style={{ position: "absolute", top: 110, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+        <div className="dh-p06__header">
           <DhSection num="陆" label="INTERACTION · TouchDesigner FLOW" title="手势成为新的鼓槌" />
           <div className="dh-caption">CAM → TD → PROJ / SPK</div>
         </div>
 
         {/* 主区双栏 */}
-        <div style={{ position: "absolute", top: 200, left: 56, right: 56, bottom: 110, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
+        <div className="dh-p06__main">
 
           {/* 左：六步流程 */}
           <div>
-            <div className="dh-caption" style={{ marginBottom: 14 }}>FLOW · 六步</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div className="dh-caption dh-p06__col-title">FLOW · 六步</div>
+            <div className="dh-p06__flow">
               {steps.map((s) => (
-                <div key={s.n} className="dh-card" style={{ padding: "18px 22px", display: "grid", gridTemplateColumns: "44px 110px 1fr", gap: 18, alignItems: "center" }}>
-                  <div className="dh-title-s" style={{ fontSize: 22, color: "var(--gold-4)" }}>{s.n}</div>
+                <div key={s.n} className="dh-card dh-p06__step">
+                  <div className="dh-title-s dh-p06__step-num">{s.n}</div>
                   <div>
-                    <div className="dh-title-s" style={{ fontSize: 16 }}>{s.t}</div>
+                    <div className="dh-title-s">{s.t}</div>
                   </div>
-                  <div className="dh-body" style={{ fontSize: 12.5, color: "var(--paper-2)", lineHeight: 1.7 }}>{s.d}</div>
+                  <div className="dh-body dh-p06__step-desc">{s.d}</div>
                 </div>
               ))}
             </div>
@@ -49,19 +49,18 @@ export default function Page06_Interaction() {
 
           {/* 右：四个状态预览 */}
           <div>
-            <div className="dh-caption" style={{ marginBottom: 14 }}>STATE PREVIEW · 四态</div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gridTemplateRows: "1fr 1fr", gap: 14, height: 460 }}>
+            <div className="dh-caption dh-p06__col-title">STATE PREVIEW · 四态</div>
+            <div className="dh-p06__states">
               {states.map((st, i) => (
-                <div key={i} style={{
-                  position: "relative",
-                  border: "1px solid rgba(154,122,62,.35)",
-                  background: "linear-gradient(180deg, rgba(15,12,18,.8), rgba(7,6,10,.95))",
-                  overflow: "hidden"
-                }}>
+                <div key={i} className="dh-p06__state-card">
                   <DhParticles count={st.particles} seed={31 + i} opacityRange={[.2, .85]} />
-                  {st.showFig === "ghost" && <div style={{ position: "absolute", inset: 0, display: "flex", justifyContent: "center", alignItems: "flex-end", paddingBottom: 18, opacity: .35 }}><DhFigurine width={50} height={130} label="显" code="GHOST" /></div>}
+                  {st.showFig === "ghost" && (
+                    <div className="dh-p06__state-fig --ghost">
+                      <DhFigurine width={50} height={130} label="显" code="GHOST" />
+                    </div>
+                  )}
                   {st.showFig === "burst" && (
-                    <div style={{ position: "absolute", inset: 0, display: "flex", justifyContent: "center", alignItems: "flex-end", paddingBottom: 18 }}>
+                    <div className="dh-p06__state-fig">
                       <div style={{ position: "relative", width: 60, height: 140 }}>
                         <DhFigurine width={50} height={130} label="碎" code="BURST" />
                         {[...Array(8)].map((_, k) => (
@@ -75,14 +74,18 @@ export default function Page06_Interaction() {
                       </div>
                     </div>
                   )}
-                  {st.showFig === "solid" && <div style={{ position: "absolute", inset: 0, display: "flex", justifyContent: "center", alignItems: "flex-end", paddingBottom: 18 }}><DhFigurine width={56} height={140} label="重" code="SOLID" featured /></div>}
+                  {st.showFig === "solid" && (
+                    <div className="dh-p06__state-fig">
+                      <DhFigurine width={56} height={140} label="重" code="SOLID" featured />
+                    </div>
+                  )}
 
-                  <div style={{ position: "absolute", left: 14, top: 12 }}>
-                    <div className="dh-caption" style={{ color: "var(--gold-2)" }}>{`STATE · 0${i+1}`}</div>
-                    <div className="dh-title-s" style={{ fontSize: 15, marginTop: 4 }}>{st.t}</div>
-                    <div className="dh-caption" style={{ marginTop: 2, color: "var(--paper-4)" }}>{st.sub}</div>
+                  <div className="dh-p06__state-label">
+                    <div className="dh-caption dh-p06__state-eyebrow">{`STATE · 0${i+1}`}</div>
+                    <div className="dh-title-s dh-p06__state-title">{st.t}</div>
+                    <div className="dh-caption dh-p06__state-sub">{st.sub}</div>
                   </div>
-                  <div style={{ position: "absolute", left: 14, bottom: 10 }} className="dh-caption">{st.hint}</div>
+                  <div className="dh-caption dh-p06__state-hint">{st.hint}</div>
                   <div className="dh-corner tl" />
                   <div className="dh-corner br" />
                 </div>
@@ -90,8 +93,8 @@ export default function Page06_Interaction() {
             </div>
 
             {/* 硬件 */}
-            <div className="dh-card" style={{ marginTop: 18, padding: "16px 20px", display: "flex", gap: 18, alignItems: "center" }}>
-              <span className="dh-caption" style={{ color: "var(--gold-3)" }}>HARDWARE</span>
+            <div className="dh-card dh-p06__hardware">
+              <span className="dh-caption dh-p06__hardware-label">HARDWARE</span>
               <span className="dh-chip-mono">摄像头</span>
               <span className="dh-chip-mono">TouchDesigner</span>
               <span className="dh-chip-mono">投影 / 大屏</span>
@@ -101,7 +104,7 @@ export default function Page06_Interaction() {
           </div>
         </div>
 
-        <div style={{ position: "absolute", bottom: 24, left: 56, right: 56, display: "flex", justifyContent: "space-between" }}>
+        <div className="dh-p06__footer">
           <div className="dh-caption">SIGNAL · 摄像头(轮廓 / 手势) → TouchDesigner(粒子 / 破碎 / 鼓点) → 投影 + 音响</div>
           <div className="dh-caption">FPS · 60 &nbsp;·&nbsp; LATENCY · ≤ 80 ms</div>
         </div>

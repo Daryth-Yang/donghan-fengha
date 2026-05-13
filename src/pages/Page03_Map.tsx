@@ -17,21 +17,16 @@ export default function Page03_Map() {
         <DhMist />
         <DhParticles count={60} seed={11} opacityRange={[.2, .55]} />
 
-        <div style={{ position: "absolute", top: 110, left: 56, right: 56 }}>
+        <div className="dh-chap-header">
           <DhSection num="叁" label="NARRATIVE MAP · 山水长卷" title="从雒阳风声到蜀地鼓声" />
         </div>
 
         {/* 山水长卷主图 */}
-        <div style={{ position: "absolute", top: 220, left: 56, right: 56, height: 470, border: "1px solid rgba(154,122,62,.25)" }}>
+        <div className="dh-p03__scroll">
           {/* 卷轴底纹 */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background:
-              "linear-gradient(180deg, rgba(20,16,12,.4), rgba(7,6,10,.95))," +
-              "repeating-linear-gradient(180deg, transparent 0 38px, rgba(154,122,62,.04) 38px 39px)"
-          }} />
+          <div className="dh-p03__scroll-bg" />
           {/* 远山脉 */}
-          <svg viewBox="0 0 1320 470" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: .55 }}>
+          <svg viewBox="0 0 1320 470" className="dh-p03__svg" style={{ opacity: .55 }} preserveAspectRatio="none">
             <defs>
               <linearGradient id="m1" x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor="#9a7a3e" stopOpacity=".0"/>
@@ -43,7 +38,7 @@ export default function Page03_Map() {
           </svg>
 
           {/* 金色细线连接路径 */}
-          <svg viewBox="0 0 1320 470" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} preserveAspectRatio="none">
+          <svg viewBox="0 0 1320 470" className="dh-p03__svg" preserveAspectRatio="none">
             <defs>
               <linearGradient id="trail" x1="0" x2="1">
                 <stop offset="0%" stopColor="#9a7a3e" stopOpacity=".2"/>
@@ -60,36 +55,28 @@ export default function Page03_Map() {
 
           {/* 节点 */}
           {nodes.map((n, i) => (
-            <div key={i} style={{
-              position: "absolute",
-              left: `calc(${n.x}% )`, top: i % 2 === 0 ? 160 : 220,
-              transform: "translateX(-50%)",
-              textAlign: "center"
+            <div key={i} className="dh-p03__node" style={{
+              left: `${n.x}%`,
+              top: i % 2 === 0 ? 160 : 220,
             }}>
-              <div className="dh-halo" style={{ width: 60, height: 60, left: -16, top: -16, opacity: i === 3 ? 1 : .4 }} />
-              <div style={{
-                width: 14, height: 14, borderRadius: "50%",
-                background: "var(--gold-4)",
-                margin: "0 auto",
-                boxShadow: "0 0 14px rgba(230,200,132,.7)",
-                border: "1px solid var(--gold-2)"
-              }} />
-              <div style={{ width: 1, height: 26, background: "rgba(201,169,97,.35)", margin: "4px auto 0" }} />
-              <div className="dh-eyebrow" style={{ color: "var(--gold-2)", marginTop: 8 }}>{`0${i+1}`}</div>
-              <div className="dh-title-s" style={{ fontSize: 16, marginTop: 4 }}>{n.label}</div>
-              <div className="dh-body" style={{ fontSize: 11, color: "var(--paper-3)", marginTop: 4, letterSpacing: ".18em" }}>{n.sub}</div>
-              <div className="dh-caption" style={{ marginTop: 6 }}>{n.desc}</div>
+              <div className="dh-halo dh-p03__node-halo" style={{ opacity: i === 3 ? 1 : .4 }} />
+              <div className="dh-p03__node-dot" />
+              <div className="dh-p03__node-stem" />
+              <div className="dh-eyebrow dh-p03__node-idx">{`0${i+1}`}</div>
+              <div className="dh-title-s dh-p03__node-label">{n.label}</div>
+              <div className="dh-body dh-p03__node-sub">{n.sub}</div>
+              <div className="dh-caption dh-p03__node-desc">{n.desc}</div>
             </div>
           ))}
 
           {/* 卷轴标签 */}
-          <div className="dh-side-vert" style={{ left: 14, top: 30, fontSize: 14, color: "var(--gold-3)" }}>北 · 雒阳</div>
-          <div className="dh-side-vert" style={{ right: 14, top: 30, fontSize: 14, color: "var(--gold-3)" }}>南 · 益州</div>
+          <div className="dh-side-vert dh-p03__edge-tag --left">北 · 雒阳</div>
+          <div className="dh-side-vert dh-p03__edge-tag --right">南 · 益州</div>
         </div>
 
         {/* 底部图例 */}
-        <div style={{ position: "absolute", bottom: 30, left: 56, right: 56, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ display: "flex", gap: 28, alignItems: "center" }}>
+        <div className="dh-chap-footnote">
+          <div className="dh-p03__legend-left">
             <span className="dh-caption">LEGEND</span>
             <span className="dh-chip-mono">○ 叙事节点</span>
             <span className="dh-chip-mono">— 金线轨迹</span>
