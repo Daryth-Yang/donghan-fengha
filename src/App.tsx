@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Stage from './layout/Stage';
 import { CHAPTERS } from './layout/chapters';
+import ChapterFooter from './layout/ChapterFooter';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Page01_Hero        = lazy(() => import('./pages/Page01_Hero'));
@@ -78,6 +79,7 @@ export default function App() {
           </Suspense>
         </ErrorBoundary>
       </Stage>
+      <ChapterFooter />
     </BrowserRouter>
   );
 }

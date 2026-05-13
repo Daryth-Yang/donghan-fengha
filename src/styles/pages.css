@@ -8,6 +8,59 @@
 .dh-edge-pad {
   padding-inline: clamp(28px, 4vw, 80px);
 }
+
+/* —— 章节翻页链接 —— 视口底部左右角，集成设计语言 —— */
+.dh-chap-link {
+  position: fixed;
+  bottom: clamp(18px, 2.4vh, 32px);
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(6px, .8vw, 12px);
+  text-decoration: none;
+  font-family: var(--sf-serif);
+  letter-spacing: .18em;
+  padding: clamp(8px, 1vh, 14px) clamp(12px, 1.4vw, 20px);
+  z-index: 40;
+  color: var(--gold-2);
+  background: linear-gradient(180deg, rgba(7,6,10,0), rgba(7,6,10,.55));
+  border-top: 1px solid rgba(154,122,62,.18);
+  transition: color .25s ease, transform .35s cubic-bezier(.22,.61,.36,1), border-color .25s;
+  cursor: pointer;
+}
+.dh-chap-link--prev { left: clamp(20px, 3vw, 48px); }
+.dh-chap-link--next { right: clamp(20px, 3vw, 48px); }
+.dh-chap-link__arrow {
+  font-size: clamp(14px, 1.2vw, 18px);
+  color: var(--gold-3);
+  letter-spacing: 0;
+}
+.dh-chap-link__cn {
+  font-size: clamp(14px, 1.2vw, 18px);
+  color: var(--gold-3);
+  letter-spacing: .12em;
+}
+.dh-chap-link__title {
+  font-size: clamp(10px, .82vw, 12px);
+  letter-spacing: .32em;
+  color: var(--paper-3);
+}
+.dh-chap-link:hover {
+  color: var(--gold-5);
+  border-top-color: var(--gold-3);
+}
+.dh-chap-link:hover .dh-chap-link__arrow,
+.dh-chap-link:hover .dh-chap-link__cn {
+  color: var(--gold-5);
+}
+.dh-chap-link:hover .dh-chap-link__title {
+  color: var(--paper-1);
+}
+.dh-chap-link--prev:hover { transform: translateX(-4px); }
+.dh-chap-link--next:hover { transform: translateX(4px); }
+.dh-chap-link:focus-visible {
+  outline: 1px solid var(--gold-4);
+  outline-offset: 2px;
+}
 .dh-content-area {
   position: absolute;
   inset: 64px 0 clamp(40px, 6vh, 80px);
@@ -171,6 +224,24 @@
   position: relative;
   margin-bottom: 0;
   flex: 0 0 auto;
+  padding: clamp(6px, 1vh, 10px) clamp(8px, .8vw, 12px) clamp(6px, 1vh, 10px) 8px;
+  margin-left: -8px;
+  border-left: 1px solid transparent;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+  transition: background .3s ease, border-color .3s ease, transform .3s ease;
+}
+.dh-p02__node:hover {
+  background: linear-gradient(90deg, rgba(201,169,97,.10), transparent 70%);
+  border-left-color: var(--gold-3);
+  transform: translateX(2px);
+}
+.dh-p02__node:hover .dh-p02__node-dot {
+  background: var(--gold-4) !important;
+  box-shadow: 0 0 14px rgba(230,200,132,.7) !important;
+}
+.dh-p02__node:hover .dh-p02__node-year {
+  color: var(--gold-5);
 }
 .dh-p02__node-dot {
   position: absolute;
