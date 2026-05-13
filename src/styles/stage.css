@@ -1,0 +1,284 @@
+/* ==========================================================
+   stage.css — 1440×900 黑金水墨长卷舞台
+   ========================================================== */
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #050407;
+  color: var(--paper-1);
+  font-family: var(--sf-sans);
+}
+
+/* ----- 画板基础 ----- */
+.dh-stage {
+  position: relative;
+  width: 1440px;
+  height: 900px;
+  background: var(--ink-0);
+  color: var(--paper-1);
+  font-family: var(--sf-sans);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 卷轴底纹（极淡 noise / 宣纸纤维感） */
+.dh-stage::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1200px 600px at 20% 110%, rgba(154,122,62,.08), transparent 60%),
+    radial-gradient(900px 500px at 85% -10%, rgba(201,169,97,.06), transparent 60%),
+    radial-gradient(600px 400px at 50% 50%, rgba(20,16,24,0), rgba(7,6,10,.5) 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 微噪点 —— 模拟宣纸纤维 */
+.dh-stage::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(rgba(255,235,195,.022) 1px, transparent 1px),
+    radial-gradient(rgba(255,235,195,.014) 1px, transparent 1px);
+  background-size: 3px 3px, 7px 7px;
+  background-position: 0 0, 1px 2px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 0;
+}
+
+.dh-frame { position: relative; z-index: 1; width: 100%; height: 100%; }
+
+/* ----- 标题字号体系 ----- */
+.dh-title-xl { font-family: var(--sf-serif); font-weight: 600; font-size: 88px; letter-spacing: .18em; color: var(--gold-4); line-height: 1.1; }
+.dh-title-l  { font-family: var(--sf-serif); font-weight: 600; font-size: 56px; letter-spacing: .14em; color: var(--gold-4); line-height: 1.15; }
+.dh-title-m  { font-family: var(--sf-serif); font-weight: 600; font-size: 36px; letter-spacing: .12em; color: var(--gold-3); line-height: 1.2; }
+.dh-title-s  { font-family: var(--sf-serif); font-weight: 500; font-size: 22px; letter-spacing: .12em; color: var(--gold-3); }
+.dh-eyebrow  { font-family: var(--sf-mono); font-size: 11px; letter-spacing: .42em; color: var(--gold-2); text-transform: uppercase; }
+.dh-body     { font-family: var(--sf-sans); font-size: 14px; line-height: 1.95; color: var(--paper-2); letter-spacing: .04em; text-wrap: pretty; }
+.dh-body-l   { font-family: var(--sf-sans); font-size: 16px; line-height: 2.0; color: var(--paper-2); letter-spacing: .05em; text-wrap: pretty; }
+.dh-caption  { font-family: var(--sf-mono); font-size: 10px; letter-spacing: .3em; color: var(--paper-4); text-transform: uppercase; }
+.dh-quote    { font-family: var(--sf-serif); font-weight: 500; font-size: 28px; line-height: 1.75; letter-spacing: .12em; color: var(--gold-4); }
+
+.dh-vert {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: .42em;
+}
+
+/* ----- 山水（CSS 几何剪影） ----- */
+.dh-mountain {
+  position: absolute;
+  left: 0; right: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(154,122,62,.18) 35%, rgba(201,169,97,.32) 100%);
+  filter: drop-shadow(0 0 18px rgba(201,169,97,.15));
+}
+.dh-mountain.--back  { bottom: 0; height: 240px; opacity: .35;
+  clip-path: polygon(0% 100%, 0% 70%, 8% 55%, 16% 70%, 24% 48%, 33% 65%, 42% 40%, 50% 60%, 58% 45%, 67% 65%, 76% 38%, 84% 60%, 92% 50%, 100% 64%, 100% 100%); }
+.dh-mountain.--mid   { bottom: 0; height: 200px; opacity: .55;
+  clip-path: polygon(0% 100%, 0% 80%, 6% 65%, 14% 80%, 22% 55%, 30% 78%, 38% 60%, 47% 75%, 55% 50%, 63% 72%, 72% 55%, 80% 78%, 88% 65%, 96% 80%, 100% 70%, 100% 100%); }
+.dh-mountain.--front { bottom: 0; height: 140px; opacity: .85;
+  background: linear-gradient(180deg, transparent 0%, rgba(58,44,20,.4) 30%, rgba(7,6,10,.95) 100%);
+  clip-path: polygon(0% 100%, 0% 90%, 5% 70%, 12% 88%, 20% 60%, 28% 85%, 36% 70%, 44% 90%, 52% 65%, 60% 88%, 68% 72%, 76% 92%, 84% 75%, 92% 90%, 100% 78%, 100% 100%); }
+
+/* ----- 墨雾 ----- */
+.dh-mist {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(800px 280px at 30% 78%, rgba(201,169,97,.08), transparent 70%),
+    radial-gradient(700px 260px at 75% 88%, rgba(154,122,62,.10), transparent 70%),
+    radial-gradient(500px 200px at 55% 55%, rgba(40,34,28,.55), transparent 75%);
+}
+
+/* ----- 金色细线装饰 ----- */
+.dh-rule {
+  background: linear-gradient(90deg, transparent, var(--gold-2) 8%, var(--gold-3) 50%, var(--gold-2) 92%, transparent);
+  height: 1px;
+}
+.dh-rule-v {
+  background: linear-gradient(180deg, transparent, var(--gold-2) 8%, var(--gold-3) 50%, var(--gold-2) 92%, transparent);
+  width: 1px;
+}
+
+/* ----- 边框：双线金 ----- */
+.dh-border-double {
+  border: 1px solid rgba(154,122,62,.45);
+  outline: 1px solid rgba(154,122,62,.18);
+  outline-offset: 4px;
+}
+
+/* ----- 按钮 ----- */
+.dh-btn {
+  display: inline-flex; align-items: center; gap: 14px;
+  padding: 16px 34px;
+  font-family: var(--sf-serif);
+  font-size: 16px; letter-spacing: .42em;
+  color: var(--gold-4);
+  background: linear-gradient(180deg, rgba(154,122,62,.10), rgba(58,44,20,.25));
+  border: 1px solid var(--gold-2);
+  position: relative;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.dh-btn:hover { color: var(--gold-5); border-color: var(--gold-3); background: linear-gradient(180deg, rgba(201,169,97,.16), rgba(107,80,40,.35)); }
+.dh-btn::before, .dh-btn::after {
+  content:""; position:absolute; width: 8px; height: 8px;
+  border: 1px solid var(--gold-3);
+}
+.dh-btn::before { top:-3px; left:-3px; border-right:none; border-bottom:none; }
+.dh-btn::after  { bottom:-3px; right:-3px; border-left:none; border-top:none; }
+
+.dh-btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 22px;
+  font-family: var(--sf-sans); font-size: 13px; letter-spacing: .32em;
+  color: var(--gold-3);
+  background: transparent;
+  border: 1px solid rgba(154,122,62,.5);
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.dh-btn-ghost:hover { color: var(--gold-5); border-color: var(--gold-3); }
+
+/* ----- 角章 / 编号 ----- */
+.dh-seal {
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--vermilion);
+  background: rgba(139,58,42,.18);
+  font-family: var(--sf-cal);
+  color: #c9695a;
+  font-size: 28px;
+  letter-spacing: 0;
+}
+
+/* ----- 粒子 ----- */
+.dh-dot { position: absolute; border-radius: 50%; pointer-events: none; }
+
+/* ----- 顶部 / 底部导航条 ----- */
+.dh-topbar {
+  position: absolute; top: 0; left: 0; right: 0; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px;
+  border-bottom: 1px solid rgba(154,122,62,.22);
+  z-index: 5;
+}
+.dh-brand { display:flex; align-items:center; gap: 14px; font-family: var(--sf-serif); color: var(--gold-3); letter-spacing: .3em; font-size: 14px; }
+.dh-brand-mark { width: 24px; height: 24px; border: 1px solid var(--gold-3); transform: rotate(45deg); position: relative; }
+.dh-brand-mark::after { content:""; position:absolute; inset: 5px; background: var(--gold-3); }
+
+.dh-nav { display:flex; gap: 38px; font-family: var(--sf-sans); font-size: 12px; letter-spacing: .36em; color: var(--paper-3); }
+.dh-nav a { color: inherit; text-decoration: none; }
+.dh-nav .--active { color: var(--gold-4); position: relative; }
+.dh-nav .--active::after { content:""; position:absolute; left: 0; right: 0; bottom: -22px; height: 1px; background: var(--gold-3); }
+
+.dh-meta { font-family: var(--sf-mono); font-size: 10px; letter-spacing: .3em; color: var(--paper-4); }
+
+/* 卷轴侧边的竖排小标题 */
+.dh-side-vert {
+  position: absolute;
+  font-family: var(--sf-serif);
+  letter-spacing: .55em;
+  color: var(--gold-2);
+  font-size: 12px;
+}
+
+/* 汉代回纹 token —— 用 CSS 平铺 */
+.dh-meander {
+  height: 12px;
+  background-image:
+    linear-gradient(90deg, var(--gold-2) 1px, transparent 1px),
+    linear-gradient(0deg, var(--gold-2) 1px, transparent 1px);
+  background-size: 12px 12px;
+  opacity: .35;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* 文物剪影占位 */
+.dh-figurine {
+  position: relative;
+  border: 1px solid rgba(154,122,62,.45);
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(154,122,62,.08) 0 6px,
+      transparent 6px 14px),
+    linear-gradient(180deg, rgba(20,16,12,.6), rgba(7,6,10,.9));
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+  padding: 14px 8px;
+  overflow: hidden;
+}
+.dh-figurine .--label {
+  font-family: var(--sf-mono); font-size: 9px; letter-spacing: .3em; color: var(--paper-4);
+  text-transform: uppercase;
+}
+.dh-figurine .--cn {
+  writing-mode: vertical-rl;
+  font-family: var(--sf-serif);
+  letter-spacing: .35em;
+  color: var(--gold-3);
+  font-size: 14px;
+  position: absolute;
+  top: 14px; right: 10px;
+}
+
+/* 粒子光环 */
+.dh-halo {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(230,200,132,.35), rgba(230,200,132,0) 70%);
+  pointer-events: none;
+}
+
+/* 鼓点波纹 */
+.dh-ripple {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(201,169,97,.35);
+  pointer-events: none;
+}
+
+/* 标签 chip */
+.dh-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sf-sans); font-size: 11px; letter-spacing: .25em;
+  color: var(--gold-3);
+  border: 1px solid rgba(154,122,62,.4);
+  padding: 5px 12px;
+  background: rgba(40,30,18,.3);
+}
+.dh-chip-mono {
+  font-family: var(--sf-mono); font-size: 10px; letter-spacing: .2em;
+  color: var(--paper-3);
+  border: 1px solid rgba(118,107,90,.4);
+  padding: 4px 10px;
+}
+
+/* 角点装饰 */
+.dh-corner {
+  position: absolute; width: 18px; height: 18px;
+  border: 1px solid var(--gold-3);
+}
+.dh-corner.tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+.dh-corner.tr { top: 0; right: 0; border-left: none;  border-bottom: none; }
+.dh-corner.bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+.dh-corner.br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+/* 文档卡 */
+.dh-card {
+  background: linear-gradient(180deg, rgba(31,26,35,.7), rgba(12,10,14,.9));
+  border: 1px solid rgba(154,122,62,.28);
+  position: relative;
+}
+
+/* 滚动条样式（极简） */
+.dh-scroll::-webkit-scrollbar { width: 4px; height: 4px; }
+.dh-scroll::-webkit-scrollbar-thumb { background: rgba(154,122,62,.4); }
+.dh-scroll::-webkit-scrollbar-track { background: transparent; }

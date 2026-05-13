@@ -1,0 +1,31 @@
+/* ==========================================================
+   scaler.css —— 1440×900 画板的视口适配
+   通过 CSS 变量 --dh-scale 在 stage.tsx 中按 viewport 实时计算
+   ========================================================== */
+
+.dh-scaler {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050407;
+  overflow: hidden;
+}
+
+.dh-scaler__inner {
+  width: 1440px;
+  height: 900px;
+  transform-origin: center center;
+  transform: scale(var(--dh-scale, 1));
+  flex-shrink: 0;
+}
+
+/* 路由切换淡入 */
+@keyframes dhRouteIn {
+  0%   { opacity: 0; transform: translateY(8px); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0);   filter: blur(0); }
+}
+.dh-route-enter > .dh-stage > .dh-frame {
+  animation: dhRouteIn .9s cubic-bezier(.22,.61,.36,1) both;
+}

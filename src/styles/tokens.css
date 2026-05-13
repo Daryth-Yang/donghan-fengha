@@ -1,0 +1,36 @@
+/* ==========================================================
+   东汉风华 · 俳优之志  ——  视觉系统
+   黑金水墨 / 汉代卷轴 / 数字粒子
+   ========================================================== */
+
+:root {
+  /* 基色 —— 深黑带暖墨 */
+  --ink-0: #07060a;
+  --ink-1: #0c0a0e;
+  --ink-2: #15121a;
+  --ink-3: #1f1a23;
+  --ink-4: #2a2330;
+
+  /* 暗金渐变 */
+  --gold-0: #3a2c14;
+  --gold-1: #6b5028;
+  --gold-2: #9a7a3e;
+  --gold-3: #c9a961;
+  --gold-4: #e6c884;
+  --gold-5: #f4dfa6;
+
+  /* 米白 / 浅灰 */
+  --paper-1: #efe3c9;
+  --paper-2: #d6cab0;
+  --paper-3: #a99d85;
+  --paper-4: #756a55;
+  --paper-5: #4a4338;
+
+  /* 朱砂点缀（极少使用） */
+  --vermilion: #8b3a2a;
+
+  --sf-serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --sf-sans:  "Noto Sans SC", "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+  --sf-cal:   "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --sf-mono:  "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+}

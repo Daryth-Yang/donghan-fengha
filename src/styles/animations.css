@@ -1,0 +1,226 @@
+/* ==========================================================
+   animations.css —— 黑金水墨 · 动效层
+   全部基于 CSS keyframes / transition，不改动 DOM 结构
+   ========================================================== */
+
+/* ----- 入场：画板载入时整页淡入 + 上浮 ----- */
+@keyframes dhStageIn {
+  0%   { opacity: 0; transform: translateY(14px); filter: blur(8px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+.dh-stage > .dh-frame { animation: dhStageIn 1.2s cubic-bezier(.22,.61,.36,1) both; }
+
+/* ----- 远 / 中 / 前山微动（呼吸式上下浮） ----- */
+@keyframes dhMtnBreath {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+.dh-mountain.--back  { animation: dhMtnBreath 14s ease-in-out infinite;        }
+.dh-mountain.--mid   { animation: dhMtnBreath 11s ease-in-out infinite -2s;    }
+.dh-mountain.--front { animation: dhMtnBreath  9s ease-in-out infinite -4s;    }
+
+/* ----- 墨雾飘移 ----- */
+@keyframes dhMistDrift {
+  0%   { transform: translate3d(-2%,  0,    0); opacity: .85; }
+  50%  { transform: translate3d( 2%, -1%, 0); opacity: 1;   }
+  100% { transform: translate3d(-2%,  0,    0); opacity: .85; }
+}
+.dh-mist { animation: dhMistDrift 22s ease-in-out infinite; will-change: transform, opacity; }
+
+/* ----- 金色粒子：飘升 + 闪烁 ----- */
+@keyframes dhDotFloat {
+  0%   { transform: translate3d(0,  0,    0) scale(1);    opacity: var(--dot-op-min, .25); }
+  50%  { transform: translate3d(2px, -8px, 0) scale(1.6); opacity: var(--dot-op-max, .9); }
+  100% { transform: translate3d(-1px, -16px, 0) scale(.8); opacity: 0; }
+}
+.dh-dot {
+  animation: dhDotFloat var(--d, 6s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: transform, opacity;
+}
+
+/* ----- 鼓点波纹：扩散脉冲 ----- */
+@keyframes dhRipplePulse {
+  0%   { transform: scale(.55); opacity: .85; }
+  70%  {                           opacity: .25; }
+  100% { transform: scale(1.6);  opacity: 0;   }
+}
+.dh-ripple {
+  animation: dhRipplePulse 4s cubic-bezier(.22,.61,.36,1) infinite;
+  animation-delay: calc(var(--i, 0) * .9s);
+  transform-origin: center;
+}
+
+/* ----- 光环：呼吸 ----- */
+@keyframes dhHaloBreath {
+  0%, 100% { transform: scale(1);    opacity: .85; }
+  50%      { transform: scale(1.18); opacity: 1;   filter: blur(.5px); }
+}
+.dh-halo {
+  animation: dhHaloBreath 4.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ----- 角章 · 微微心跳 ----- */
+@keyframes dhSealPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139,58,42,0); }
+  50%      { box-shadow: 0 0 0 6px rgba(139,58,42,.0), 0 0 18px rgba(139,58,42,.35); }
+}
+.dh-seal { animation: dhSealPulse 4s ease-in-out infinite; }
+
+/* ----- 角点装饰 · 缓闪 ----- */
+@keyframes dhCornerGlow {
+  0%, 100% { border-color: rgba(201,169,97,.55); }
+  50%      { border-color: rgba(230,200,132,1); }
+}
+.dh-corner { animation: dhCornerGlow 6s ease-in-out infinite; }
+
+/* ----- 双线金边 · 流光 ----- */
+@keyframes dhRuleFlow {
+  0%   { background-position:   0% 0; }
+  100% { background-position: 200% 0; }
+}
+.dh-rule {
+  background: linear-gradient(90deg, transparent, var(--gold-2) 8%, var(--gold-4) 50%, var(--gold-2) 92%, transparent);
+  background-size: 200% 100%;
+  animation: dhRuleFlow 9s linear infinite;
+}
+
+/* ----- 时间轴节点 · 当前态心跳 ----- */
+@keyframes dhDotHeart {
+  0%, 100% { box-shadow: 0 0 14px rgba(230,200,132,.55); }
+  50%      { box-shadow: 0 0 22px rgba(230,200,132,1);   }
+}
+
+/* ----- 卷标侧边竖排：呼吸 ----- */
+@keyframes dhVertGlow {
+  0%, 100% { color: var(--gold-2); }
+  50%      { color: var(--gold-4); }
+}
+.dh-side-vert { animation: dhVertGlow 6s ease-in-out infinite; }
+
+/* ----- 按钮交互：精致 hover + 点击波纹 ----- */
+.dh-btn { transition: transform .35s ease, color .25s, border-color .25s, background .25s, box-shadow .35s; }
+.dh-btn::before, .dh-btn::after { transition: all .35s ease; }
+.dh-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(201,169,97,.18), inset 0 0 24px rgba(201,169,97,.12);
+}
+.dh-btn:hover::before { transform: translate(-3px, -3px); border-color: var(--gold-5); }
+.dh-btn:hover::after  { transform: translate(3px, 3px);   border-color: var(--gold-5); }
+.dh-btn:active { transform: translateY(0) scale(.985); }
+
+.dh-btn-ghost { transition: all .25s ease; }
+.dh-btn-ghost:hover { transform: translateY(-1px); background: rgba(201,169,97,.08); }
+.dh-btn-ghost:active { transform: scale(.985); }
+
+/* ----- 卡片 hover · 浮起 + 金边亮起 ----- */
+.dh-card {
+  transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease;
+}
+.dh-card:hover {
+  border-color: rgba(201,169,97,.55);
+  box-shadow: 0 10px 34px rgba(0,0,0,.45), 0 0 0 1px rgba(201,169,97,.15) inset;
+  transform: translateY(-2px);
+}
+
+/* ----- 文物剪影 · hover 唤起光环 + 鼓点 ----- */
+.dh-figurine {
+  transition: transform .5s cubic-bezier(.22,.61,.36,1), border-color .35s, box-shadow .35s, filter .35s;
+  cursor: pointer;
+}
+.dh-figurine:hover {
+  border-color: var(--gold-3);
+  box-shadow: 0 0 30px rgba(201,169,97,.3), inset 0 -40px 60px rgba(201,169,97,.18);
+  transform: translateY(-4px);
+  filter: brightness(1.08);
+}
+
+/* hover 时让 .dh-figurine 周围（其父级里的）halo 加亮 */
+.dh-figurine:hover ~ .dh-halo,
+*:has(> .dh-figurine:hover) > .dh-halo {
+  opacity: 1 !important;
+}
+
+/* ----- 导航 ----- */
+.dh-nav span, .dh-nav a { transition: color .25s; cursor: pointer; }
+.dh-nav span:hover, .dh-nav a:hover { color: var(--gold-4); }
+
+/* ----- chip · hover ----- */
+.dh-chip, .dh-chip-mono { transition: all .25s; cursor: default; }
+.dh-chip:hover { color: var(--gold-5); border-color: var(--gold-3); background: rgba(201,169,97,.08); }
+.dh-chip-mono:hover { color: var(--paper-1); border-color: var(--gold-2); }
+
+/* ----- 地图节点 hover：放大 + 光环膨胀 ----- */
+.dh-map-node { transition: transform .35s cubic-bezier(.22,.61,.36,1); cursor: pointer; }
+.dh-map-node:hover { transform: translateX(-50%) scale(1.08); }
+.dh-map-node:hover .dh-halo { opacity: 1 !important; transform: scale(1.4); }
+
+/* ----- 步骤卡 hover ----- */
+.dh-step-card { transition: all .3s ease; cursor: pointer; }
+.dh-step-card:hover { transform: translateX(4px); border-color: var(--gold-3); background: linear-gradient(180deg, rgba(40,30,18,.55), rgba(20,16,12,.85)); }
+
+/* ----- 状态预览窗口 ----- */
+.dh-state-frame { transition: all .35s ease; cursor: pointer; }
+.dh-state-frame:hover { border-color: var(--gold-3); box-shadow: 0 0 30px rgba(201,169,97,.18); }
+
+/* ----- 流程节点 ----- */
+.dh-flow-node { transition: all .3s; cursor: pointer; }
+.dh-flow-node:hover { transform: translateY(-2px); }
+.dh-flow-node:hover > div:first-child {
+  background: var(--gold-4) !important;
+  box-shadow: 0 0 16px rgba(230,200,132,.7) !important;
+}
+
+/* ----- 波形条 · 律动 ----- */
+@keyframes dhBarPulse {
+  0%, 100% { transform: scaleY(.7); }
+  50%      { transform: scaleY(1.25); }
+}
+.dh-wave-bar {
+  transform-origin: center;
+  animation: dhBarPulse var(--bd, 1.4s) ease-in-out infinite;
+  animation-delay: var(--bdelay, 0s);
+}
+
+/* ----- 鼓中心 · 击鼓脉冲 ----- */
+@keyframes dhDrumThump {
+  0%, 92%, 100% { transform: translate(-50%,-50%) scale(1);  filter: brightness(1); }
+  4%            { transform: translate(-50%,-50%) scale(1.18); filter: brightness(1.5); }
+  10%           { transform: translate(-50%,-50%) scale(1);  filter: brightness(1); }
+}
+.dh-drum-core { animation: dhDrumThump 1.4s ease-out infinite; }
+
+/* ----- 顶部 nav 当前态下划线呼吸 ----- */
+@keyframes dhNavGlow { 0%,100%{opacity:.6} 50%{opacity:1} }
+.dh-nav .--active::after { animation: dhNavGlow 2.4s ease-in-out infinite; }
+
+/* ----- 山水细线（地图卷轴的金色虚线） · 流动 ----- */
+@keyframes dhDashFlow { to { stroke-dashoffset: -200; } }
+.dh-trail-path { animation: dhDashFlow 18s linear infinite; }
+
+/* ----- 陶片飞散 · 微抖 ----- */
+@keyframes dhShardJitter {
+  0%, 100% { transform: var(--shard-base) translate(0,0); }
+  50%      { transform: var(--shard-base) translate(2px, -3px); }
+}
+.dh-shard { animation: dhShardJitter 5s ease-in-out infinite; }
+
+/* ----- 骨架线稿 · 描边 ----- */
+@keyframes dhStrokeDraw {
+  0%   { stroke-dashoffset: 600; opacity: .35; }
+  100% { stroke-dashoffset: 0;   opacity: 1;   }
+}
+.dh-skeleton g { stroke-dasharray: 600; animation: dhStrokeDraw 5s ease-in-out infinite alternate; }
+
+/* ----- 焦点 / 点击态：被选中文物 ----- */
+.dh-focus {
+  outline: 1px solid var(--gold-3);
+  outline-offset: 2px;
+  box-shadow: 0 0 40px rgba(201,169,97,.35), inset 0 -50px 80px rgba(201,169,97,.18);
+}
+
+/* ----- design canvas 内部画板进入视图时再淡入（细节） ----- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; animation-delay: 0s !important; transition-duration: .001s !important; }
+}
