@@ -1,8 +1,9 @@
 /* ===========================================================
    Stage.tsx — 1440×900 画板的视口适配容器
-   策略：fit 模式（min scale）—— 保持设计完整性，不裁切不变形
-   - 视口比 16:10 越接近，外缘留白越少
-   - 配合纯深色背景与画板内自带的水墨气氛，留白区域不形成 框
+   策略：fit (min scale) + 顶对齐 + 视口级水墨气氛延展
+   - 画板顶部贴齐视口顶部（topbar 永远在浏览器顶端）
+   - 画板按宽 / 高较小者等比缩放，保持设计完整、不变形不裁切
+   - 画板下方 / 两侧的留白由 .dh-scaler 自带的远山 + 暗金辉光延展填满
    =========================================================== */
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -37,7 +38,7 @@ export default function Stage({ children }: { children: ReactNode }) {
         style={{
           width: DESIGN_W,
           height: DESIGN_H,
-          transform: `scale(${scale})`,
+          transform: `translateX(-50%) scale(${scale})`,
           ['--dh-scale' as string]: scale,
         } as CSSProperties}
       >

@@ -1,24 +1,68 @@
 /* ==========================================================
-   scaler.css —— 1440×900 画板的视口适配 (fit 模式)
-   背景纯深色，画板自带气氛，外缘留白不再装饰，避免出现 框 感
+   scaler.css —— 1440×900 画板的视口适配
+   fit (min scale) + 顶对齐 + 视口级水墨气氛延展
    ========================================================== */
 
 .dh-scaler {
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
   background: #07060a;
 }
 
+/* 画板：顶对齐 + 水平居中。topbar 永远贴齐浏览器顶端
+   transform = translateX(-50%) scale(--dh-scale) 由 Stage.tsx 写入
+   transform-origin: top left 使 translateX(-50%) 按缩放后的宽度正确居中 */
 .dh-scaler__inner {
-  transform-origin: center center;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform-origin: top left;
   flex-shrink: 0;
+  z-index: 1;
 }
 
-/* 路由切换淡入：只做轻量 opacity，画板内 dhStageIn 负责精细动画 */
+/* —— 视口级远景山水延展 ——
+   画板自带的山水位于 .dh-stage 内部 (y ≈ 760-900 设计坐标)，缩放后只占
+   画板高度。此处在视口底部再叠一层 山色，从画板山水的下沿一路延伸到
+   浏览器底部，让下方留白成为风景而非空白。 */
+.dh-scaler::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55vh;
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(58, 44, 20, .12) 35%,
+    rgba(40, 30, 18, .55) 75%,
+    rgba(7, 6, 10, .98) 100%
+  );
+  clip-path: polygon(
+    0% 100%, 0% 78%, 4% 70%, 8% 82%, 13% 65%, 18% 80%, 23% 60%, 28% 78%,
+    33% 55%, 38% 75%, 43% 62%, 48% 80%, 53% 58%, 58% 76%, 63% 65%, 68% 82%,
+    73% 60%, 78% 78%, 83% 68%, 88% 82%, 93% 64%, 98% 76%, 100% 70%, 100% 100%
+  );
+  filter: drop-shadow(0 0 24px rgba(201, 169, 97, .12));
+}
+
+/* —— 视口级暗金辉光：把整个浏览器窗口当做一张数字长卷
+   的底色，让画板内的金色粒子 / 标题与窗口边缘呼吸一致 —— */
+.dh-scaler::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(1200px 700px at 20% 8%, rgba(154, 122, 62, .10), transparent 70%),
+    radial-gradient(1100px 650px at 82% 92%, rgba(201, 169, 97, .08), transparent 70%);
+}
+
+/* 路由切换淡入 */
 @keyframes dhRouteIn {
   0%   { opacity: 0; }
   100% { opacity: 1; }
