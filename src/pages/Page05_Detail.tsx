@@ -1,7 +1,7 @@
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import {
   DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners,
-  DhSection, DhMeander, cn,
+  DhSection, DhSectionNav, DhMeander, cn,
 } from '../components/atmosphere';
 
 type Figure = {
@@ -106,16 +106,18 @@ export default function Page05_Detail() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="文物群像" page="05" />
+        <DhTopBar active="文物群像" />
         <DhMist />
         <DhParticles count={45} seed={23} opacityRange={[.15, .5]} />
 
         <div className="dh-p05__header">
-          <DhSection num="伍" label="ARTIFACT FILE · 文物档案" title="五件俑的来路与去向" />
+          <DhSection label="ARTIFACT FILE · 文物档案" title="五件俑的来路与去向" />
           <div className="dh-caption">
             {String(idx + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </div>
         </div>
+
+        <DhSectionNav />
 
         {/* 主区双栏 */}
         <div className="dh-p05__main">
@@ -125,8 +127,8 @@ export default function Page05_Detail() {
             <div className="dh-p05__halo" aria-hidden="true" />
             <div className="dh-p05__viewer-figure" key={fig.code}>
               <DhFigurine
-                width={320}
-                height={420}
+                width="clamp(300px, 32vw, 640px)"
+                height="clamp(400px, 48vh, 680px)"
                 label={fig.cn}
                 code={fig.code}
                 featured
@@ -135,10 +137,6 @@ export default function Page05_Detail() {
             <div className="dh-p05__viewer-corner --tl">
               <span className="dh-caption">{fig.code}</span>
               <span className="dh-caption">2026 · DIGITAL ARCHIVE</span>
-            </div>
-            <div className="dh-p05__viewer-corner --br">
-              <span className="dh-caption">{ordinal} · {String(idx + 1).padStart(2, '0')}/0{total}</span>
-              <span className="dh-caption">REF · 后汉书 · 风俗通义</span>
             </div>
           </div>
 
@@ -172,24 +170,7 @@ export default function Page05_Detail() {
               ))}
             </div>
 
-            {/* 下一步 */}
-            <div className="dh-p05__doc-cta">
-              <button
-                className="dh-btn-ghost"
-                onClick={() => setFig((idx - 1 + total) % total)}
-                aria-label="上一件"
-              >
-                ← {(idx === 0 ? FIGURES[total - 1] : FIGURES[idx - 1]).cn}
-              </button>
-              <Link to="/interaction" className="dh-btn-ghost">进入互动 →</Link>
-              <button
-                className="dh-btn-ghost"
-                onClick={() => setFig((idx + 1) % total)}
-                aria-label="下一件"
-              >
-                {(idx === total - 1 ? FIGURES[0] : FIGURES[idx + 1]).cn} →
-              </button>
-            </div>
+            {/* 上一件 / 下一件 由底部切换器接管，进入互动 由 ChapterFooter 接管 */}
           </div>
         </div>
 
@@ -210,7 +191,7 @@ export default function Page05_Detail() {
                 >
                   <div className="dh-p05__switcher-num">零·{cn(i + 1)}</div>
                   <div className="dh-p05__switcher-thumb">
-                    <DhFigurine width={56} height={72} label={f.cn} code={f.code} />
+                    <DhFigurine width="clamp(72px, 5.8vw, 124px)" height="clamp(96px, 7.2vw, 156px)" label={f.cn} code={f.code} />
                   </div>
                   <div className="dh-p05__switcher-name dh-caption">{f.cn}</div>
                 </button>

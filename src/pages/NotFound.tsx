@@ -10,7 +10,7 @@ export default function NotFound() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="首页" page="00" />
+        <DhTopBar active="首页" />
         <DhMist />
         <DhParticles count={70} seed={101} opacityRange={[0.18, 0.55]} />
 

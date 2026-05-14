@@ -3,15 +3,80 @@
    黑金水墨视觉系统的可复用片段
    =========================================================== */
 import { Fragment, useMemo, type CSSProperties, type ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
+import { PAGES } from '../layout/pages';
 
-/* —— 山水剪影：背 / 中 / 前 三层 —— */
+/* —— 山水剪影：背 / 中 / 前 三层 ——
+   不是高耸的山峰，而是水墨在宣纸上洇开的极低起伏：
+   - 三层全部压在视口下半段
+   - 峰谷振幅极小（y 范围只占 4-8%），像呼吸一样的横向波动
+   - 顶部完全透明，越接近底部色越浓 —— 让边缘"洇"进背景
+   - CSS 再叠加 blur(远→近 渐弱) 做出水彩散开的边 */
+const DH_MTN_PATHS = {
+  // 远山：起伏极淡，几乎是水平线上的轻微浮动
+  back:  'M 0 100 L 0 68 C 14 64 26 70 38 66 C 50 62 60 70 72 65 C 84 60 92 68 100 64 L 100 100 Z',
+  // 中景：稍稍向前 + 略大起伏
+  mid:   'M 0 100 L 0 78 C 16 73 28 80 40 75 C 52 70 62 80 74 74 C 86 69 94 80 100 76 L 100 100 Z',
+  // 前景：最接近"地平线"，最低的鼓起
+  front: 'M 0 100 L 0 88 C 18 84 30 90 42 86 C 54 82 64 90 76 86 C 88 82 96 90 100 87 L 100 100 Z',
+} as const;
+type DhMtnVariant = keyof typeof DH_MTN_PATHS;
+
+const DH_MTN_STOPS: Record<DhMtnVariant, ReadonlyArray<{ offset: string; color: string }>> = {
+  // 远山：顶部完全透明、中段一抹金尘、底部到不深的金粒
+  back: [
+    { offset: '0%',   color: 'rgba(154,122,62,0)' },
+    { offset: '55%',  color: 'rgba(154,122,62,.06)' },
+    { offset: '100%', color: 'rgba(201,169,97,.18)' },
+  ],
+  // 中景：略浓一档但仍克制
+  mid: [
+    { offset: '0%',   color: 'rgba(154,122,62,0)' },
+    { offset: '55%',  color: 'rgba(154,122,62,.10)' },
+    { offset: '100%', color: 'rgba(201,169,97,.30)' },
+  ],
+  // 前景：暖墨过渡到沉色 —— 不再用纯黑，保留一丝金味避免硬切
+  front: [
+    { offset: '0%',   color: 'rgba(40,28,12,.20)' },
+    { offset: '50%',  color: 'rgba(28,20,10,.55)' },
+    { offset: '100%', color: 'rgba(14,10,6,.88)' },
+  ],
+};
+
+/** 单层山脉。带 `className` 让特定页面（如 Page 02）能用自己的覆盖类调整位置。 */
+export function DhMountainLayer({
+  variant,
+  className = '',
+}: {
+  variant: DhMtnVariant;
+  className?: string;
+}) {
+  const gradId = `dh-mtn-grad-${variant}`;
+  return (
+    <svg
+      className={`dh-mountain --${variant}${className ? ' ' + className : ''}`}
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+          {DH_MTN_STOPS[variant].map((s) => (
+            <stop key={s.offset} offset={s.offset} stopColor={s.color} />
+          ))}
+        </linearGradient>
+      </defs>
+      <path fill={`url(#${gradId})`} d={DH_MTN_PATHS[variant]} />
+    </svg>
+  );
+}
+
 export function DhMountains() {
   return (
     <>
-      <div className="dh-mountain --back" />
-      <div className="dh-mountain --mid" />
-      <div className="dh-mountain --front" />
+      <DhMountainLayer variant="back" />
+      <DhMountainLayer variant="mid" />
+      <DhMountainLayer variant="front" />
     </>
   );
 }
@@ -92,16 +157,18 @@ export function DhParticles({
   );
 }
 
-/* —— 顶部导航（使用 React Router） —— */
+/* —— 顶部导航（使用 React Router）
+   注：「互动体验」section 暂时隐藏，恢复时把对应行还原 —— */
 const NAV_ITEMS: ReadonlyArray<{ label: string; path: string }> = [
-  { label: '首页', path: '/' },
+  { label: '首页',     path: '/' },
   { label: '历史背景', path: '/history' },
   { label: '文物群像', path: '/figures' },
-  { label: '互动体验', path: '/interaction' },
+  // { label: '互动体验', path: '/interaction' },
   { label: '展陈方案', path: '/exhibition' },
+  { label: '尾声',     path: '/ending' },
 ];
 
-export function DhTopBar({ active, page = '01' }: { active?: string; page?: string }) {
+export function DhTopBar({ active }: { active?: string }) {
   return (
     <header className="dh-topbar" role="banner">
       <NavLink to="/" className="dh-brand" style={{ textDecoration: 'none' }} aria-label="东汉风华 · 俳优之志 · 回到首页">
@@ -122,8 +189,44 @@ export function DhTopBar({ active, page = '01' }: { active?: string; page?: stri
           </NavLink>
         ))}
       </nav>
-      <div className="dh-meta" aria-label={`第 ${page} 章 · 共 10 章`}>CH · {page} / 10 &nbsp;·&nbsp; TouchDesigner</div>
+      <div className="dh-meta">TouchDesigner &nbsp;·&nbsp; 数字叙事</div>
     </header>
+  );
+}
+
+/* —— 分区内导航 —— 列出当前 section 下全部页面的 pill 条
+   位置：贴在 chap-header 下方一条；当前页高亮，其他页 hover 提亮可跳转。
+   仅当本分区 ≥ 2 页时渲染；单页分区（如展陈方案）不输出。
+   自动从 useLocation 读取当前路径，无需调用方传 prop。 */
+export function DhSectionNav() {
+  const { pathname } = useLocation();
+  const current = PAGES.find((p) => p.path === pathname);
+  if (!current) return null;
+  const siblings = PAGES.filter((p) => p.section === current.section);
+  if (siblings.length < 2) return null;
+
+  return (
+    <nav className="dh-section-nav" aria-label={`本节 · ${current.section}`}>
+      <span className="dh-caption dh-section-nav__label">本节 · {current.section}</span>
+      <div className="dh-section-nav__pills">
+        {siblings.map((p) => {
+          const isCurrent = p.path === pathname;
+          return (
+            <NavLink
+              key={p.path}
+              to={p.path}
+              end={p.path === '/'}
+              className={`dh-section-nav__pill${isCurrent ? ' --current' : ''}`}
+              aria-current={isCurrent ? 'page' : undefined}
+              tabIndex={isCurrent ? -1 : 0}
+            >
+              <span className="dh-section-nav__pill-title">{p.title}</span>
+              {!isCurrent && <span className="dh-section-nav__pill-arrow" aria-hidden="true">→</span>}
+            </NavLink>
+          );
+        })}
+      </div>
+    </nav>
   );
 }
 
@@ -163,17 +266,15 @@ export function DhCorners() {
 
 /* —— 标号 + 章节名 —— */
 export function DhSection({
-  num = '01',
   label = 'SECTION',
   title,
 }: {
-  num?: string;
   label?: string;
   title?: string;
 }) {
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
-      <span className="dh-eyebrow" style={{ color: 'var(--gold-3)' }}>—— {num}</span>
+      <span className="dh-eyebrow" style={{ color: 'var(--gold-3)' }}>——</span>
       <span className="dh-caption">{label}</span>
       {title && <span className="dh-title-s" style={{ marginLeft: 8 }}>{title}</span>}
     </div>
@@ -192,8 +293,9 @@ export function DhFigurine({
   showHalo = false,
   src,
 }: {
-  width?: number;
-  height?: number;
+  /** 像素数字（180）或 CSS 长度字符串（'clamp(180px, 16vw, 320px)'） */
+  width?: number | string;
+  height?: number | string;
   label?: string;
   code?: string;
   featured?: boolean;
@@ -255,10 +357,15 @@ export function DhRipples({
   y = '50%',
 }: {
   count?: number;
-  size?: number;
+  /** 像素数字（200）或 CSS 长度字符串（'clamp(...)' / calc()） */
+  size?: number | string;
   x?: string | number;
   y?: string | number;
 }) {
+  const insetAt = (i: number): number | string =>
+    typeof size === 'number'
+      ? -i * (size / count / 2)
+      : `calc(${size} / ${count * 2} * ${-i})`;
   return (
     <div
       aria-hidden="true"
@@ -276,7 +383,7 @@ export function DhRipples({
           key={i}
           className="dh-ripple"
           style={{
-            inset: -i * (size / count / 2),
+            inset: insetAt(i),
             ['--i' as string]: i,
           } as CSSProperties}
         />

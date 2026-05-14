@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners, DhSection } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhFigurine, DhCorners, DhSection, DhSectionNav } from '../components/atmosphere';
 
 export default function Page06_Interaction() {
   const steps = [
@@ -20,13 +20,15 @@ export default function Page06_Interaction() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="互动体验" page="06" />
+        <DhTopBar active="互动体验" />
         <DhMist />
 
         <div className="dh-p06__header">
-          <DhSection num="陆" label="INTERACTION · TouchDesigner FLOW" title="手势成为新的鼓槌" />
+          <DhSection label="INTERACTION · TouchDesigner FLOW" title="手势成为新的鼓槌" />
           <div className="dh-caption">CAM → TD → PROJ / SPK</div>
         </div>
+
+        <DhSectionNav />
 
         {/* 主区双栏 */}
         <div className="dh-p06__main">
@@ -56,13 +58,13 @@ export default function Page06_Interaction() {
                   <DhParticles count={st.particles} seed={31 + i} opacityRange={[.2, .85]} />
                   {st.showFig === "ghost" && (
                     <div className="dh-p06__state-fig --ghost">
-                      <DhFigurine width={50} height={130} label="显" code="GHOST" />
+                      <DhFigurine width="clamp(42px, 3.8vw, 84px)" height="clamp(110px, 10vw, 220px)" label="显" code="GHOST" />
                     </div>
                   )}
                   {st.showFig === "burst" && (
                     <div className="dh-p06__state-fig">
-                      <div style={{ position: "relative", width: 60, height: 140 }}>
-                        <DhFigurine width={50} height={130} label="碎" code="BURST" />
+                      <div style={{ position: "relative", width: "clamp(50px, 4.5vw, 100px)", height: "clamp(118px, 11vw, 236px)" }}>
+                        <DhFigurine width="clamp(42px, 3.8vw, 84px)" height="clamp(110px, 10vw, 220px)" label="碎" code="BURST" />
                         {[...Array(8)].map((_, k) => (
                           <div key={k} className="dh-dot" style={{
                             width: 4, height: 4, background: "var(--gold-4)",
@@ -76,7 +78,7 @@ export default function Page06_Interaction() {
                   )}
                   {st.showFig === "solid" && (
                     <div className="dh-p06__state-fig">
-                      <DhFigurine width={56} height={140} label="重" code="SOLID" featured />
+                      <DhFigurine width="clamp(46px, 4.2vw, 92px)" height="clamp(118px, 11vw, 236px)" label="重" code="SOLID" featured />
                     </div>
                   )}
 

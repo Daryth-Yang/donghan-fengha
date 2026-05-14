@@ -1,19 +1,25 @@
 import { Fragment } from 'react';
-import { DhTopBar, DhMist, DhParticles, DhCorners, DhSection } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhCorners, DhSection, DhSectionNav } from '../components/atmosphere';
 
 export default function Page07_Fracture() {
   const flow = ["完整陶俑", "手势扰动", "陶片破碎", "粒子游离", "重新聚合", "文物再生"];
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="互动体验" page="07" />
+        <DhTopBar active="互动体验" />
         <DhMist />
         <DhParticles count={70} seed={37} opacityRange={[.2, .7]} />
 
         <div className="dh-p07__header">
-          <DhSection num="柒" label="FRACTURE & RESTORE" title="破碎不是损毁 · 重构不是复原" />
+          <DhSection label="FRACTURE & RESTORE" title="破碎不是损毁 · 重构不是复原" />
           <div className="dh-caption">SHATTER → DRIFT → RE-FORM</div>
         </div>
+
+        <DhSectionNav />
+
+        {/* 主区：可滚动主体（短屏不再撞挤） */}
+        <div className="dh-p07__body">
+          <div className="dh-p07__body-inner">
 
         {/* 主视觉 */}
         <div className="dh-p07__stage">
@@ -123,6 +129,9 @@ export default function Page07_Fracture() {
         <p className="dh-body dh-p07__quote">
           「破碎不是文物的终点，而是时间留下的痕迹。重构也不是简單复原，而是当代观众与文物之间的一次重新连接。」
         </p>
+
+          </div>
+        </div>
 
         <DhCorners />
       </div>

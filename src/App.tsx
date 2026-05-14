@@ -1,13 +1,12 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Stage from './layout/Stage';
-import { CHAPTERS } from './layout/chapters';
+import { PAGES } from './layout/pages';
 import ChapterFooter from './layout/ChapterFooter';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const Page01_Hero        = lazy(() => import('./pages/Page01_Hero'));
 const Page02_History     = lazy(() => import('./pages/Page02_History'));
-const Page03_Map         = lazy(() => import('./pages/Page03_Map'));
 const Page04_Group       = lazy(() => import('./pages/Page04_Group'));
 const Page05_Detail      = lazy(() => import('./pages/Page05_Detail'));
 const Page06_Interaction = lazy(() => import('./pages/Page06_Interaction'));
@@ -18,7 +17,7 @@ const Page10_Ending      = lazy(() => import('./pages/Page10_Ending'));
 const NotFound           = lazy(() => import('./pages/NotFound'));
 
 /**
- * 键盘翻章：← / → / PageUp / PageDown 在 CHAPTERS 中前后跳转。
+ * 键盘翻页：← / → / PageUp / PageDown 在 PAGES 顺序中前后跳转。
  * 输入元素聚焦时不劫持。无可见 UI，仅作为辅助快捷键。
  */
 function KeyboardNav() {
@@ -30,14 +29,14 @@ function KeyboardNav() {
       if (t && (t.isContentEditable || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT')) {
         return;
       }
-      const idx = CHAPTERS.findIndex((c) => c.path === pathname);
+      const idx = PAGES.findIndex((p) => p.path === pathname);
       if (idx < 0) return;
-      if ((e.key === 'ArrowRight' || e.key === 'PageDown') && idx < CHAPTERS.length - 1) {
+      if ((e.key === 'ArrowRight' || e.key === 'PageDown') && idx < PAGES.length - 1) {
         e.preventDefault();
-        navigate(CHAPTERS[idx + 1].path);
+        navigate(PAGES[idx + 1].path);
       } else if ((e.key === 'ArrowLeft' || e.key === 'PageUp') && idx > 0) {
         e.preventDefault();
-        navigate(CHAPTERS[idx - 1].path);
+        navigate(PAGES[idx - 1].path);
       }
     };
     window.addEventListener('keydown', onKey);
@@ -66,7 +65,6 @@ export default function App() {
             <Routes>
               <Route path="/"             element={<Page01_Hero />} />
               <Route path="/history"      element={<Page02_History />} />
-              <Route path="/map"          element={<Page03_Map />} />
               <Route path="/figures"      element={<Page04_Group />} />
               <Route path="/detail"       element={<Page05_Detail />} />
               <Route path="/interaction"  element={<Page06_Interaction />} />

@@ -1,4 +1,4 @@
-import { DhTopBar, DhMist, DhParticles, DhSection, DhCorners } from '../components/atmosphere';
+import { DhTopBar, DhMist, DhParticles, DhSection, DhSectionNav, DhCorners } from '../components/atmosphere';
 
 export default function Page09_Sound() {
   const states = [
@@ -11,14 +11,16 @@ export default function Page09_Sound() {
   return (
     <div className="dh-stage">
       <div className="dh-frame">
-        <DhTopBar active="互动体验" page="09" />
+        <DhTopBar active="互动体验" />
         <DhMist />
         <DhParticles count={70} seed={47} opacityRange={[.2, .65]} />
 
         <div className="dh-p09__header">
-          <DhSection num="玖" label="SOUND · 鼓点作为叙事线索" title="鼓点 · 文物被唤醒的节奏" />
+          <DhSection label="SOUND · 鼓点作为叙事线索" title="鼓点 · 文物被唤醒的节奏" />
           <div className="dh-caption">AUDIO · 4 STATES</div>
         </div>
+
+        <DhSectionNav />
 
         <div className="dh-p09__body">
 
