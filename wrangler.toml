@@ -1,0 +1,9 @@
+name = "donghan-web"
+compatibility_date = "2025-01-01"
+
+# Vite 构建产物目录
+[assets]
+directory = "./dist"
+# 关键：React Router 的 SPA 路由 —— 任何未匹配的 URL 都 fallback 到 index.html
+# 让客户端 BrowserRouter 接管路径（/history /map 等都能直接访问）
+not_found_handling = "single-page-application"
